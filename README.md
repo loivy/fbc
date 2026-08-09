@@ -36,7 +36,7 @@ GCP project: **`fbc-founder-platform`** (project number `225691173730`, region `
 
 | Piece | URL / resource |
 | --- | --- |
-| Client (Firebase Hosting) | https://fbc-founder-platform.web.app |
+| Client (Firebase Hosting) | https://fbc-founder-platform.web.app (also served on `.firebaseapp.com`) |
 | API (Cloud Run) | https://fbc-server-225691173730.us-central1.run.app |
 | Firestore | Native mode, `nam5` multi-region, free tier |
 | Auth | Firebase Auth, email/password provider enabled |
@@ -50,6 +50,15 @@ Google Cloud buildpacks. The `gcp-build` script in `server/package.json` runs `t
 
 ```bash
 gcloud run deploy fbc-server --source server --region us-central1 --project fbc-founder-platform --allow-unauthenticated
+```
+
+`CLIENT_ORIGIN` is a comma-separated CORS allowlist and must contain **both** Hosting domains —
+the auth action handler (password reset, email verification) runs on `.firebaseapp.com`, so a
+`.web.app`-only allowlist breaks the app for anyone who lands there. Note `gcloud` treats commas
+as env-var separators, so set it with the alternate-delimiter form:
+
+```bash
+gcloud run deploy fbc-server --source server --region us-central1 --project fbc-founder-platform --set-env-vars="^@^FIREBASE_PROJECT_ID=fbc-founder-platform@CLIENT_ORIGIN=https://fbc-founder-platform.web.app,https://fbc-founder-platform.firebaseapp.com"
 ```
 
 Client and Firestore rules deploys authenticate by impersonating

@@ -7,7 +7,7 @@ import adminRoutes from "./routes/admin";
 
 const app = express();
 
-app.use(cors({ origin: env.clientOrigin }));
+app.use(cors({ origin: env.clientOrigins }));
 app.use(express.json());
 
 app.get("/health", (_req, res) => res.json({ ok: true }));
