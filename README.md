@@ -28,4 +28,42 @@ Founder tiers (monthly subscription, includes mentor hours):
 - **Hosting**: Firebase Hosting (client) + Cloud Run (API)
 - **CI/CD**: GitHub Actions (`.github/workflows/ci.yml` typechecks/builds on every PR; `deploy.yml` builds/pushes the API image and deploys to Cloud Run + Firebase Hosting on `main`, once GCP/Firebase project secrets are configured)
 
-Repo layout: `server/` (Express API), `client/` (React app), npm workspaces at the root.
+Repo layout: `server/` (Express API), `client/` (React app), `scripts/` (deploy helpers), npm workspaces at the root.
+
+## Live deployment
+
+GCP project: **`fbc-founder-platform`** (project number `225691173730`, region `us-central1`)
+
+| Piece | URL / resource |
+| --- | --- |
+| Client (Firebase Hosting) | https://fbc-founder-platform.web.app |
+| API (Cloud Run) | https://fbc-server-225691173730.us-central1.run.app |
+| Firestore | Native mode, `nam5` multi-region, free tier |
+| Auth | Firebase Auth, email/password provider enabled |
+| Images | Artifact Registry `us-central1-docker.pkg.dev/fbc-founder-platform/fbc` |
+
+### Deploying
+
+Deploys authenticate by impersonating `fbc-deployer@fbc-founder-platform.iam.gserviceaccount.com`,
+so no interactive `firebase login` is needed — just `gcloud auth login` with
+`roles/iam.serviceAccountTokenCreator` on that service account.
+
+```bash
+gcloud builds submit --config cloudbuild.yaml --substitutions=_IMAGE=us-central1-docker.pkg.dev/fbc-founder-platform/fbc/fbc-server:v2 --project=fbc-founder-platform
+```
+
+```bash
+gcloud run deploy fbc-server --image=us-central1-docker.pkg.dev/fbc-founder-platform/fbc/fbc-server:v2 --region=us-central1 --project=fbc-founder-platform
+```
+
+Client + rules (PowerShell, from the repo root):
+
+```bash
+npm run build --workspace client; ./scripts/deploy-hosting.ps1; ./scripts/deploy-rules.ps1
+```
+
+### Local setup
+
+Copy `client/.env.example` → `client/.env` and `server/.env.example` → `server/.env`.
+The client's Firebase web config values are in the Firebase console under Project settings → your apps
+(the web API key is public by design — it's guarded by Firestore rules and authorized domains, not secrecy).

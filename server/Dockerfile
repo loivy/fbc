@@ -1,18 +1,18 @@
 # Build from the repo root: docker build -f server/Dockerfile .
 FROM node:20-slim AS build
 WORKDIR /app
-COPY package.json ./
-COPY server/package.json server/
-RUN npm install --workspace server --include-workspace-root=false
-COPY server server
-RUN npm run build --workspace server
+COPY server/package.json ./
+RUN npm install
+COPY server/tsconfig.json ./
+COPY server/src ./src
+RUN npm run build
 
 FROM node:20-slim
 WORKDIR /app
 ENV NODE_ENV=production
-COPY --from=build /app/server/package.json ./
-COPY --from=build /app/server/node_modules ./node_modules
-COPY --from=build /app/server/dist ./dist
+COPY server/package.json ./
+RUN npm install --omit=dev && npm cache clean --force
+COPY --from=build /app/dist ./dist
 
 # Cloud Run injects PORT; the app reads it via env.ts (defaults to 8080).
 EXPOSE 8080
