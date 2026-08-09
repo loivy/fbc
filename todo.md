@@ -21,11 +21,13 @@ Stack: React + Vite client, Express API on Cloud Run, Firebase Auth, Firestore. 
 - [x] Base user profile model: `UserProfile` in Firestore `users` collection (email, name, bio, role) — `server/src/lib/types.ts`
 - [x] Founder tier field (Free/Tier1/Tier2/Tier3) + basic account settings page (`client/src/pages/DashboardPage.tsx`, name/bio editable; tier displayed)
 - [x] Admin flag / admin-only route guard — `requireAdmin` middleware (`server/src/middleware/auth.ts`), used by `server/src/routes/admin.ts` (list users, set founder tier)
-- [x] Deployment pipeline scaffolded: `server/Dockerfile` (Cloud Run), `firebase.json`/`firestore.rules` (Hosting + Firestore), `.github/workflows/ci.yml` (typecheck/build on PR), `.github/workflows/deploy.yml` (deploy to Cloud Run + Firebase Hosting on `main`)
+- [x] Deployment pipeline scaffolded: source-based Cloud Run deploy, `firebase.json`/`firestore.rules` (Hosting + Firestore), `.github/workflows/ci.yml` (typecheck/build on PR), `.github/workflows/deploy.yml` (deploy to Cloud Run + Firebase Hosting on `main`)
 - [x] **Live infrastructure provisioned** in GCP project `fbc-founder-platform`: billing linked, APIs enabled, Firestore (native, nam5), Firebase added, web app registered, email/password auth enabled, Artifact Registry repo, `fbc-deployer` service account
 - [x] **Deployed and verified end-to-end**: client at https://fbc-founder-platform.web.app, API at https://fbc-server-225691173730.us-central1.run.app — signup creates a Firebase Auth user, the API provisions the Firestore profile, and profile edits persist
-- [x] Repeatable deploy scripts: `scripts/deploy-hosting.ps1`, `scripts/deploy-rules.ps1` (SA impersonation, no interactive `firebase login`)
-  - [ ] Wire up GitHub Actions CD: set repo vars/secrets listed at the top of `deploy.yml` (`GCP_PROJECT_ID`, `GCP_REGION`, `CLOUD_RUN_SERVICE`, `ARTIFACT_REPO`, WIF provider + deploy SA, `FIREBASE_SERVICE_ACCOUNT`), and pass the `VITE_FIREBASE_*` values into the client build step — `client/.env` is gitignored, so CI has no Firebase config today
+- [x] Repeatable deploy scripts: `scripts/deploy-hosting.ps1`, `scripts/deploy-rules.ps1`, `scripts/create-admin.ps1` (SA impersonation, no interactive `firebase login`)
+- [x] API deploys from source via Cloud Run buildpacks (no Dockerfile); `gcp-build` script compiles TypeScript
+- [x] Admin account provisioned for loivy0225@gmail.com and verified against the admin-only endpoint
+  - [ ] Wire up GitHub Actions CD: set repo vars/secrets listed at the top of `deploy.yml` (`GCP_PROJECT_ID`, `GCP_REGION`, `CLOUD_RUN_SERVICE`, WIF provider + deploy SA, `FIREBASE_SERVICE_ACCOUNT`), and pass the `VITE_FIREBASE_*` values into the client build step — `client/.env` is gitignored, so CI has no Firebase config today
   - [ ] Remove the `smoketest@example.com` test account (Firebase Auth user + its `users/` doc) once no longer needed
 
 ## Phase 1 — Founder Advisory (mentor booking) ⭐ first functional phase

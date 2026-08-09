@@ -1,9 +1,0 @@
-# Builds the API image from the repo root using server/Dockerfile.
-# Invoke: gcloud builds submit --config cloudbuild.yaml --substitutions=_IMAGE=<image-uri>
-steps:
-  - name: gcr.io/cloud-builders/docker
-    args: ["build", "-f", "server/Dockerfile", "-t", "${_IMAGE}", "."]
-images:
-  - "${_IMAGE}"
-options:
-  logging: CLOUD_LOGGING_ONLY

@@ -40,26 +40,33 @@ GCP project: **`fbc-founder-platform`** (project number `225691173730`, region `
 | API (Cloud Run) | https://fbc-server-225691173730.us-central1.run.app |
 | Firestore | Native mode, `nam5` multi-region, free tier |
 | Auth | Firebase Auth, email/password provider enabled |
-| Images | Artifact Registry `us-central1-docker.pkg.dev/fbc-founder-platform/fbc` |
+| Images | Artifact Registry `us-central1-docker.pkg.dev/fbc-founder-platform/cloud-run-source-deploy` |
 
 ### Deploying
 
-Deploys authenticate by impersonating `fbc-deployer@fbc-founder-platform.iam.gserviceaccount.com`,
-so no interactive `firebase login` is needed — just `gcloud auth login` with
-`roles/iam.serviceAccountTokenCreator` on that service account.
+There is no Dockerfile — the API deploys **from source**, and Cloud Build compiles it with
+Google Cloud buildpacks. The `gcp-build` script in `server/package.json` runs `tsc`, and
+`engines.node` pins the runtime (must be a version the builder offers — 20 is no longer available).
 
 ```bash
-gcloud builds submit --config cloudbuild.yaml --substitutions=_IMAGE=us-central1-docker.pkg.dev/fbc-founder-platform/fbc/fbc-server:v2 --project=fbc-founder-platform
+gcloud run deploy fbc-server --source server --region us-central1 --project fbc-founder-platform --allow-unauthenticated
 ```
 
-```bash
-gcloud run deploy fbc-server --image=us-central1-docker.pkg.dev/fbc-founder-platform/fbc/fbc-server:v2 --region=us-central1 --project=fbc-founder-platform
-```
+Client and Firestore rules deploys authenticate by impersonating
+`fbc-deployer@fbc-founder-platform.iam.gserviceaccount.com`, so no interactive `firebase login`
+is needed — just `gcloud auth login` with `roles/iam.serviceAccountTokenCreator` on that account.
 
 Client + rules (PowerShell, from the repo root):
 
 ```bash
 npm run build --workspace client; ./scripts/deploy-hosting.ps1; ./scripts/deploy-rules.ps1
+```
+
+Promote someone to admin (creates the Auth user if needed, sets `role=ADMIN`, and prints a
+single-use link for them to set their own password — admins are never self-service):
+
+```bash
+./scripts/create-admin.ps1 -Email you@example.com -Name "Your Name"
 ```
 
 ### Local setup

@@ -1,0 +1,8 @@
+# Used when deploying with: gcloud run deploy --source server
+# dist/ is intentionally excluded - the buildpack compiles it via the gcp-build script.
+node_modules
+dist
+*.tsbuildinfo
+.env
+.env.*
+!.env.example

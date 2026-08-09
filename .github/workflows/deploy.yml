@@ -1,7 +1,7 @@
 name: Deploy
 
 # Requires repo secrets/vars to be configured once a GCP + Firebase project exists:
-#   vars.GCP_PROJECT_ID, vars.GCP_REGION, vars.CLOUD_RUN_SERVICE, vars.ARTIFACT_REPO
+#   vars.GCP_PROJECT_ID, vars.GCP_REGION, vars.CLOUD_RUN_SERVICE
 #   secrets.GCP_WORKLOAD_IDENTITY_PROVIDER, secrets.GCP_DEPLOY_SA  (Workload Identity Federation)
 #   secrets.FIREBASE_TOKEN (or switch to WIF for Firebase Hosting too)
 # Until those are set, this workflow is inert (present for when staging is provisioned).
@@ -27,22 +27,17 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
-      - name: Build and push image
-        run: |
-          gcloud auth configure-docker ${{ vars.GCP_REGION }}-docker.pkg.dev --quiet
-          IMAGE="${{ vars.GCP_REGION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/${{ vars.ARTIFACT_REPO }}/fbc-server:${{ github.sha }}"
-          docker build -f server/Dockerfile -t "$IMAGE" .
-          docker push "$IMAGE"
-          echo "IMAGE=$IMAGE" >> "$GITHUB_ENV"
-
-      - name: Deploy to Cloud Run
+      # Source deploy: Cloud Build compiles server/ with Google Cloud buildpacks
+      # (via the gcp-build script in server/package.json). No Dockerfile involved.
+      - name: Deploy to Cloud Run from source
         run: |
           gcloud run deploy ${{ vars.CLOUD_RUN_SERVICE }} \
-            --image "$IMAGE" \
+            --source server \
             --project ${{ vars.GCP_PROJECT_ID }} \
             --region ${{ vars.GCP_REGION }} \
             --platform managed \
-            --allow-unauthenticated
+            --allow-unauthenticated \
+            --quiet
 
   deploy-client:
     if: vars.GCP_PROJECT_ID != ''

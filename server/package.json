@@ -4,9 +4,13 @@
   "version": "0.1.0",
   "type": "commonjs",
   "main": "dist/index.js",
+  "engines": {
+    "node": "22"
+  },
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc -p tsconfig.json",
+    "gcp-build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "lint": "tsc --noEmit"
   },
