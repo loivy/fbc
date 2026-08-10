@@ -30,6 +30,42 @@ Stack: React + Vite client, Express API on Cloud Run, Firebase Auth, Firestore. 
   - [ ] Wire up GitHub Actions CD: set repo vars/secrets listed at the top of `deploy.yml` (`GCP_PROJECT_ID`, `GCP_REGION`, `CLOUD_RUN_SERVICE`, WIF provider + deploy SA, `FIREBASE_SERVICE_ACCOUNT`), and pass the `VITE_FIREBASE_*` values into the client build step — `client/.env` is gitignored, so CI has no Firebase config today
   - [ ] Remove the `smoketest@example.com` test account (Firebase Auth user + its `users/` doc) once no longer needed
 
+## Phase 0.5 — Public landing page 🎨 (before Phase 1)
+Marketing front door with the polish of a modern startup/accelerator site. Today the app has no
+public face at all: `/` redirects straight to `/dashboard` → `/login`, and every page is unstyled
+inline CSS. This phase fixes both.
+
+**Foundation (also unblocks Phase 1 UI)**
+- [ ] Pick a styling approach (Tailwind, CSS modules, or vanilla-extract) and wire it into Vite
+- [ ] Design tokens: color palette, type scale, spacing, radii, shadows
+- [ ] Shared primitives: Button, Input, Card, Container, Section, Badge
+- [ ] Restyle the existing Signup / Login / Dashboard pages to match (they're inline-styled placeholders today)
+
+**Routing**
+- [ ] Make `/` the public landing page instead of redirecting to `/dashboard`
+- [ ] Signed-in visitors hitting `/` go to `/dashboard`; signed-out visitors see the landing page
+- [ ] Public marketing header (logo, nav, "Log in" + "Get started" CTAs) and footer
+
+**Content sections**
+- [ ] Hero: headline, subhead, primary CTA (Get started) + secondary (Log in)
+- [ ] Three pillars matching the actual product: Founder Advisory (mentor hours), Weekly Investor Matching, Events
+- [ ] How it works — 3–4 steps from signup to first mentor session
+- [ ] Pricing / tier comparison table: Free, Tier 1 (4 hrs), Tier 2 (6 hrs, +1 accelerator), Tier 3 (8 hrs, +multi-accelerator & investor outreach)
+- [ ] Mentor spotlight — photos, expertise, credentials (placeholder data until real mentors are onboarded)
+- [ ] Social proof — logos, founder testimonials, outcome stats (clearly placeholder until real)
+- [ ] FAQ
+- [ ] Final CTA band above the footer
+- [ ] Footer: about, contact, privacy, terms
+
+**Quality bar**
+- [ ] Fully responsive (mobile → desktop); test at 375px, 768px, 1280px
+- [ ] SEO: page title, meta description, Open Graph / Twitter card tags, favicon
+- [ ] Accessibility: semantic landmarks, alt text, visible focus states, AA contrast
+- [ ] Performance: optimized/lazy images, no layout shift, Lighthouse ≥ 90
+- [ ] Verify the deployed landing page on both Hosting domains
+
+Deferred (not blocking): custom domain, analytics, blog/content marketing, waitlist capture.
+
 ## Phase 1 — Founder Advisory (mentor booking) ⭐ first functional phase
 - [ ] Mentor profile: expertise tags, hourly fee, bio, availability calendar
 - [ ] Mentor expertise categories aligned to tier use cases: general strategy, accelerator applications, investor outreach
