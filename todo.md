@@ -35,34 +35,43 @@ Marketing front door with the polish of a modern startup/accelerator site. Today
 public face at all: `/` redirects straight to `/dashboard` → `/login`, and every page is unstyled
 inline CSS. This phase fixes both.
 
+Built with the `design-taste-frontend` skill. Design read: landing for early-stage founders
+evaluating a paid advisory program, modern B2B SaaS language.
+Dials: DESIGN_VARIANCE 7 / MOTION_INTENSITY 5 / VISUAL_DENSITY 4.
+
 **Foundation (also unblocks Phase 1 UI)**
-- [ ] Pick a styling approach (Tailwind, CSS modules, or vanilla-extract) and wire it into Vite
-- [ ] Design tokens: color palette, type scale, spacing, radii, shadows
-- [ ] Shared primitives: Button, Input, Card, Container, Section, Badge
-- [ ] Restyle the existing Signup / Login / Dashboard pages to match (they're inline-styled placeholders today)
+- [x] Tailwind v4 wired into Vite via `@tailwindcss/vite` (not the v3-era PostCSS plugin)
+- [x] Design tokens in `client/src/styles.css`: cool neutrals + single emerald accent, radius scale, self-hosted Outfit + Plus Jakarta Sans (no Google Fonts `<link>`)
+- [x] Shared primitives in `client/src/components/ui.tsx`: Button, ButtonLink, Card, Container, Section, Field, input styles
+- [ ] Restyle the existing Signup / Login / Dashboard pages to match (still inline-styled placeholders)
 
 **Routing**
-- [ ] Make `/` the public landing page instead of redirecting to `/dashboard`
-- [ ] Signed-in visitors hitting `/` go to `/dashboard`; signed-out visitors see the landing page
-- [ ] Public marketing header (logo, nav, "Log in" + "Get started" CTAs) and footer
+- [x] `/` is now the public landing page; unknown routes redirect there
+- [x] Signed-in visitors redirect to `/dashboard`; landing paints without waiting on the auth check so it does not block LCP
+- [x] Landing renders even when Firebase is unconfigured (marketing no longer depends on auth); only auth routes gate on it
+- [x] Marketing header with mobile menu, plus footer
 
 **Content sections**
-- [ ] Hero: headline, subhead, primary CTA (Get started) + secondary (Log in)
-- [ ] Three pillars matching the actual product: Founder Advisory (mentor hours), Weekly Investor Matching, Events
-- [ ] How it works — 3–4 steps from signup to first mentor session
-- [ ] Pricing / tier comparison table: Free, Tier 1 (4 hrs), Tier 2 (6 hrs, +1 accelerator), Tier 3 (8 hrs, +multi-accelerator & investor outreach)
-- [ ] Mentor spotlight — photos, expertise, credentials (placeholder data until real mentors are onboarded)
-- [ ] Social proof — logos, founder testimonials, outcome stats (clearly placeholder until real)
-- [ ] FAQ
-- [ ] Final CTA band above the footer
-- [ ] Footer: about, contact, privacy, terms
+- [x] Hero: asymmetric split (not centered, per variance 7), 2-line headline, 16-word subtext, real image
+- [x] Three pillars as an asymmetric bento (photo cell, accent-filled cell, plain cell) rather than three equal cards
+- [x] How it works: three steps, labelled by the action itself
+- [x] Plans: Free / Tier 1 / Tier 2 / Tier 3 with hours and features, Tier 2 emphasized
+- [x] FAQ (native `<details>`, keyboard accessible)
+- [x] Final CTA band + footer
+- [ ] **Set plan prices.** The plans section ships without monthly figures because none exist yet. Add them to `plans` in `LandingPage.tsx`.
+- [ ] **Replace placeholder photography.** Hero and advisory images are Picsum seeds.
+- [ ] Mentor spotlight — needs real mentors before it can go on a live page
+- [ ] Social proof (logos, testimonials) — deliberately omitted; inventing either would put fabricated credibility on a live public page
 
 **Quality bar**
-- [ ] Fully responsive (mobile → desktop); test at 375px, 768px, 1280px
-- [ ] SEO: page title, meta description, Open Graph / Twitter card tags, favicon
-- [ ] Accessibility: semantic landmarks, alt text, visible focus states, AA contrast
-- [ ] Performance: optimized/lazy images, no layout shift, Lighthouse ≥ 90
-- [ ] Verify the deployed landing page on both Hosting domains
+- [x] Responsive, verified at 375 / 768 / 1280 with zero horizontal overflow at every width
+- [x] SEO: title, meta description, Open Graph tags, theme-color, SVG favicon
+- [x] Accessibility: semantic landmarks, alt text, visible focus ring, AA contrast verified (light CTA 5.7:1, dark CTA 9.8:1, body 13:1)
+- [x] Motion honors `prefers-reduced-motion`; no `window.addEventListener("scroll")`
+- [x] Light and dark both verified; theme locked page-wide, no section inverts
+- [x] Deployed and verified live
+- [ ] Bundle is 148 kB gzipped because Firebase loads on the landing route. Code-split so `/` does not pull the auth SDK.
+- [ ] Run Lighthouse and confirm ≥ 90
 
 Deferred (not blocking): custom domain, analytics, blog/content marketing, waitlist capture.
 
