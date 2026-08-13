@@ -14,23 +14,70 @@ export interface UserProfile {
   founderTier: FounderTier;
 }
 
+export class ApiError extends Error {
+  constructor(
+    message: string,
+    readonly status: number,
+  ) {
+    super(message);
+    this.name = "ApiError";
+  }
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = await firebaseAuth?.currentUser?.getIdToken();
-  const res = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers,
-    },
-  });
 
-  if (!res.ok) {
-    const body = await res.json().catch(() => ({}));
-    throw new Error(body?.error ? JSON.stringify(body.error) : `Request failed: ${res.status}`);
+  // The API runs on Cloud Run with no minimum instances, so the first request
+  // after an idle period pays a cold start. Retry transient failures instead of
+  // surfacing them as a login failure, but keep a ceiling so genuine outages
+  // still fail fast rather than hanging the UI forever.
+  const attempts = 3;
+  let lastError: unknown;
+
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+
+    try {
+      const res = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...options.headers,
+        },
+      });
+
+      // 4xx are real answers (bad token, missing profile). Do not retry them.
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        const message = body?.error
+          ? typeof body.error === "string"
+            ? body.error
+            : JSON.stringify(body.error)
+          : `Request failed: ${res.status}`;
+        const error = new ApiError(message, res.status);
+        if (res.status < 500) throw error;
+        lastError = error;
+      } else {
+        return (await res.json()) as T;
+      }
+    } catch (err) {
+      if (err instanceof ApiError && err.status < 500) throw err;
+      lastError = err;
+    } finally {
+      clearTimeout(timeout);
+    }
+
+    if (attempt < attempts - 1) {
+      await new Promise((resolve) => setTimeout(resolve, 600 * (attempt + 1)));
+    }
   }
 
-  return res.json() as Promise<T>;
+  throw lastError instanceof Error
+    ? lastError
+    : new Error("Could not reach the server. Check your connection and try again.");
 }
 
 export const api = {

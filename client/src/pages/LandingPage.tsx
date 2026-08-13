@@ -7,6 +7,7 @@ import {
   UsersThreeIcon,
 } from "@phosphor-icons/react";
 import { MarketingHeader } from "../components/MarketingHeader";
+import { PartnerWall } from "../components/PartnerWall";
 import { Reveal } from "../components/Reveal";
 import { ButtonLink, Container, Section, cn } from "../components/ui";
 
@@ -93,7 +94,11 @@ export function LandingPage() {
       <MarketingHeader />
       <main>
         <Hero />
+        {/* Logo wall sits under the hero, never inside it. Hides itself until
+            real partner names exist. */}
+        <PartnerWall />
         <Pillars />
+        <TheBench />
         <HowItWorks />
         <Plans />
         <Faq />
@@ -215,6 +220,49 @@ function Pillars() {
             </div>
           </Reveal>
         </div>
+      </Container>
+    </Section>
+  );
+}
+
+/*
+  Full-bleed dark panel. Distinct layout family from every other section, and it
+  carries the "this is a considered program, not a directory" message.
+  Copy stays to what the product can actually back: how hours and matching work.
+*/
+function TheBench() {
+  const facts = [
+    {
+      lead: "By expertise",
+      body: "You choose the mentor and the slot. No assignment queue, no waiting to be paired.",
+    },
+    {
+      lead: "Three specialisms",
+      body: "General strategy, accelerator applications, and investor outreach. Tiers unlock the deeper two.",
+    },
+    {
+      lead: "Hours, not seats",
+      body: "Your plan buys mentor time each month. Unused hours reset when the cycle renews.",
+    },
+  ];
+
+  return (
+    <Section className="bg-ink-950 text-paper-100 dark:bg-ink-900">
+      <Container>
+        <Reveal>
+          <h2 className="max-w-[22ch] font-display text-3xl leading-[1.1] font-semibold text-paper-50 md:text-5xl">
+            A small bench, chosen for the raise you are actually running
+          </h2>
+        </Reveal>
+
+        <dl className="mt-14 grid gap-10 border-t border-paper-100/15 pt-10 md:grid-cols-3 md:gap-8">
+          {facts.map((fact, i) => (
+            <Reveal key={fact.lead} delay={i * 0.08}>
+              <dt className="font-display text-xl font-semibold text-paper-50">{fact.lead}</dt>
+              <dd className="mt-2 leading-relaxed text-paper-200/65">{fact.body}</dd>
+            </Reveal>
+          ))}
+        </dl>
       </Container>
     </Section>
   );
