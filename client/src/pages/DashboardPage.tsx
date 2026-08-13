@@ -38,8 +38,8 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-paper-50 dark:bg-ink-950">
-      <header className="border-b border-ink-900/8 dark:border-paper-100/10">
+    <div className="min-h-[100dvh] bg-ink-950">
+      <header className="border-b border-paper-200/10">
         <Container>
           <div className="flex h-16 items-center justify-between">
             <Link to="/" className="font-display text-lg font-semibold tracking-tight">
@@ -56,11 +56,11 @@ export function DashboardPage() {
         <h1 className="font-display text-3xl font-semibold tracking-tight">
           Welcome back, {profile.name.split(" ")[0]}
         </h1>
-        <p className="mt-2 text-ink-700 dark:text-ink-400">{profile.email}</p>
+        <p className="mt-2 text-paper-400">{profile.email}</p>
 
         <div className="mt-8 grid gap-4 lg:grid-cols-3">
           <Card>
-            <p className="text-sm text-ink-500 dark:text-ink-400">Role</p>
+            <p className="text-sm text-paper-500">Role</p>
             <p className="mt-1 font-display text-xl font-semibold">
               {profile.role.charAt(0) + profile.role.slice(1).toLowerCase()}
             </p>
@@ -68,7 +68,7 @@ export function DashboardPage() {
 
           {profile.role === "FOUNDER" && (
             <Card className="lg:col-span-2">
-              <p className="text-sm text-ink-500 dark:text-ink-400">Plan</p>
+              <p className="text-sm text-paper-500">Plan</p>
               <p className="mt-1 font-display text-xl font-semibold">
                 {tierLabels[profile.founderTier ?? "FREE"]}
               </p>
@@ -96,9 +96,9 @@ export function DashboardPage() {
               />
             </Field>
 
-            {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+            {error && <p className="text-sm text-red-400">{error}</p>}
             {saved && !error && (
-              <p className="text-sm text-accent-600 dark:text-accent-300">Changes saved.</p>
+              <p className="text-sm text-accent-400">Changes saved.</p>
             )}
 
             <div>

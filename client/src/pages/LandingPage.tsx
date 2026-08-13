@@ -1,27 +1,21 @@
-import { Link } from "react-router-dom";
-import {
-  ArrowRightIcon,
-  CalendarCheckIcon,
-  CheckIcon,
-  HandshakeIcon,
-  UsersThreeIcon,
-} from "@phosphor-icons/react";
+import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react";
 import { MarketingHeader } from "../components/MarketingHeader";
 import { PartnerWall } from "../components/PartnerWall";
 import { Reveal } from "../components/Reveal";
-import { ButtonLink, Container, Section, cn } from "../components/ui";
+import { ButtonLink, Container, Eyebrow, Section, cn } from "../components/ui";
 
 /*
   Design read: landing for early-stage founders evaluating a paid advisory
-  program. Modern B2B SaaS language, credibility over spectacle.
+  program. Dark editorial language, serif display against mono labels, one
+  burnt-orange accent. Reference direction supplied by the FBC team.
   DESIGN_VARIANCE 7 / MOTION_INTENSITY 5 / VISUAL_DENSITY 4.
 
-  TODO(content): hero and advisory imagery are Picsum placeholders keyed by seed.
-  Replace with real photography before any paid traffic hits this page.
-  TODO(content): plan prices are not published here because they have not been
-  set. Add the monthly figure to each entry in `plans` when pricing is decided.
-  Deliberately omitted until real: customer logo wall and testimonials. Inventing
-  either would put fabricated social proof on a live public page.
+  TODO(content): hero imagery is a Picsum placeholder keyed by seed. Replace
+  with real photography before paid traffic.
+  TODO(content): plan prices are not published because they have not been set.
+  Add the monthly figure to each entry in `plans`.
+  No outcome statistics appear here on purpose. Numbers like "capital raised"
+  or "companies founded" need real data behind them before they go on a live page.
 */
 
 const plans = [
@@ -90,12 +84,11 @@ const faqs = [
 
 export function LandingPage() {
   return (
-    <div className="min-h-[100dvh] bg-paper-50 text-ink-900 dark:bg-ink-950 dark:text-paper-100">
+    <div className="min-h-[100dvh] bg-ink-950">
       <MarketingHeader />
       <main>
         <Hero />
-        {/* Logo wall sits under the hero, never inside it. Hides itself until
-            real partner names exist. */}
+        {/* Outcome wall sits under the hero, never inside it. */}
         <PartnerWall />
         <Pillars />
         <TheBench />
@@ -117,33 +110,37 @@ function Hero() {
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal>
-              {/* Scale is tuned so the headline holds 2 lines at desktop in this column width. */}
-              <h1 className="text-4xl leading-[1.06] font-semibold md:text-5xl lg:text-[52px]">
+              <Eyebrow>Advisory · Investor access · Events</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.06}>
+              {/* Scale tuned so the headline holds 2 lines at desktop in this column. */}
+              <h1 className="mt-5 text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
                 Straight answers on building and raising
               </h1>
             </Reveal>
-            <Reveal delay={0.08}>
-              <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-ink-700 dark:text-ink-400">
+            <Reveal delay={0.12}>
+              <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-paper-400">
                 Book hours with mentors who have raised real rounds, and meet five matched investors
                 every week.
               </p>
             </Reveal>
-            <Reveal delay={0.16}>
+            <Reveal delay={0.18}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <ButtonLink to="/signup" size="lg">
                   Get started
                   <ArrowRightIcon size={18} weight="bold" />
                 </ButtonLink>
-                <a href="#plans" className="sm:w-auto">
-                  <span className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-ink-900/15 px-6 py-3 text-base font-medium transition-colors hover:border-ink-900/35 dark:border-paper-100/20 dark:hover:border-paper-100/40">
-                    See plans
-                  </span>
+                <a
+                  href="#plans"
+                  className="inline-flex items-center justify-center rounded-full border border-paper-200/25 px-6 py-3 text-base font-medium text-paper-50 transition-colors hover:border-paper-200/55"
+                >
+                  See plans
                 </a>
               </div>
             </Reveal>
           </div>
 
-          <Reveal delay={0.12} className="lg:col-span-5">
+          <Reveal delay={0.14} className="lg:col-span-5">
             <img
               src="https://picsum.photos/seed/fbc-founder-workspace/1200/900"
               alt="Founders working together at a shared table"
@@ -159,22 +156,22 @@ function Hero() {
 }
 
 /*
-  Bento with three cells for three offerings. Cell sizes and backgrounds vary
-  deliberately: one photographic, one accent-filled, one plain surface.
+  Bento with three cells for three offerings. Cell sizes and surfaces vary
+  deliberately: one photographic, one accent-filled, one plain.
 */
 function Pillars() {
   return (
     <Section id="advisory">
       <Container>
         <Reveal>
-          <h2 className="max-w-[18ch] text-3xl font-semibold md:text-4xl">
+          <h2 className="max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
             Three ways the platform moves your round forward
           </h2>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-3 md:grid-rows-2">
+        <div className="mt-14 grid gap-4 md:grid-cols-3 md:grid-rows-2">
           <Reveal className="md:col-span-2 md:row-span-2">
-            <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-ink-900/10 bg-white dark:border-paper-100/10 dark:bg-ink-900">
+            <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900">
               <img
                 src="https://picsum.photos/seed/fbc-mentor-conversation/1000/620"
                 alt="A mentor and founder in conversation"
@@ -183,9 +180,8 @@ function Pillars() {
                 className="aspect-[16/10] w-full object-cover"
               />
               <div className="p-7">
-                <UsersThreeIcon size={24} weight="duotone" className="text-accent-600 dark:text-accent-300" />
-                <h3 className="mt-4 text-xl font-semibold">Founder advisory</h3>
-                <p className="mt-2 max-w-[46ch] leading-relaxed text-ink-700 dark:text-ink-400">
+                <h3 className="text-2xl">Founder advisory</h3>
+                <p className="mt-3 max-w-[46ch] leading-relaxed text-paper-400">
                   Book time with mentors on general strategy, accelerator applications, or investor
                   outreach. Your plan includes a set number of hours each month.
                 </p>
@@ -196,12 +192,16 @@ function Pillars() {
           <Reveal delay={0.08}>
             <div
               id="investors"
-              className="flex h-full flex-col justify-between rounded-[var(--radius-card)] bg-accent-600 p-7 text-white dark:bg-accent-700"
+              className="flex h-full flex-col justify-between rounded-[var(--radius-card)] bg-accent-500 p-7"
             >
-              <HandshakeIcon size={24} weight="duotone" />
+              {/* Solid ink on the accent fill: the translucent variants measured
+                  3.7:1 and 4.4:1 and missed AA. Solid is 5.2:1. */}
+              <p className="font-mono text-[11px] tracking-[0.18em] text-ink-950 uppercase">
+                Weekly
+              </p>
               <div className="mt-8">
-                <h3 className="text-xl font-semibold">Investor matching</h3>
-                <p className="mt-2 leading-relaxed text-white/85">
+                <h3 className="text-2xl text-ink-950">Investor matching</h3>
+                <p className="mt-3 leading-relaxed text-ink-950">
                   Five investors matched to your stage and sector, every week, on any paid plan.
                 </p>
               </div>
@@ -209,11 +209,11 @@ function Pillars() {
           </Reveal>
 
           <Reveal delay={0.16}>
-            <div className="flex h-full flex-col justify-between rounded-[var(--radius-card)] border border-ink-900/10 bg-white p-7 dark:border-paper-100/10 dark:bg-ink-900">
-              <CalendarCheckIcon size={24} weight="duotone" className="text-accent-600 dark:text-accent-300" />
+            <div className="flex h-full flex-col justify-between rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-7">
+              <p className="eyebrow">All plans</p>
               <div className="mt-8">
-                <h3 className="text-xl font-semibold">Events</h3>
-                <p className="mt-2 leading-relaxed text-ink-700 dark:text-ink-400">
+                <h3 className="text-2xl">Events</h3>
+                <p className="mt-3 leading-relaxed text-paper-400">
                   Workshops and founder sessions, open to every account including free ones.
                 </p>
               </div>
@@ -225,11 +225,7 @@ function Pillars() {
   );
 }
 
-/*
-  Full-bleed dark panel. Distinct layout family from every other section, and it
-  carries the "this is a considered program, not a directory" message.
-  Copy stays to what the product can actually back: how hours and matching work.
-*/
+/* Editorial statement panel. Distinct layout family from every other section. */
 function TheBench() {
   const facts = [
     {
@@ -247,19 +243,20 @@ function TheBench() {
   ];
 
   return (
-    <Section className="bg-ink-950 text-paper-100 dark:bg-ink-900">
+    <Section className="border-y border-paper-200/10 bg-ink-900">
       <Container>
         <Reveal>
-          <h2 className="max-w-[22ch] font-display text-3xl leading-[1.1] font-semibold text-paper-50 md:text-5xl">
+          <Eyebrow>The bench</Eyebrow>
+          <h2 className="mt-4 max-w-[24ch] text-3xl leading-[1.1] md:text-5xl">
             A small bench, chosen for the raise you are actually running
           </h2>
         </Reveal>
 
-        <dl className="mt-14 grid gap-10 border-t border-paper-100/15 pt-10 md:grid-cols-3 md:gap-8">
+        <dl className="mt-14 grid gap-10 border-t border-paper-200/10 pt-10 md:grid-cols-3 md:gap-8">
           {facts.map((fact, i) => (
             <Reveal key={fact.lead} delay={i * 0.08}>
-              <dt className="font-display text-xl font-semibold text-paper-50">{fact.lead}</dt>
-              <dd className="mt-2 leading-relaxed text-paper-200/65">{fact.body}</dd>
+              <dt className="font-display text-xl text-paper-50">{fact.lead}</dt>
+              <dd className="mt-2 leading-relaxed text-paper-400">{fact.body}</dd>
             </Reveal>
           ))}
         </dl>
@@ -268,7 +265,7 @@ function TheBench() {
   );
 }
 
-/* Vertical numbered flow. Labels are the action itself, not "Step 1". */
+/* Numbered flow. Labels are the action itself, not "Step 1". */
 function HowItWorks() {
   const steps = [
     {
@@ -286,23 +283,23 @@ function HowItWorks() {
   ];
 
   return (
-    <Section className="border-y border-ink-900/8 bg-paper-100 dark:border-paper-100/10 dark:bg-ink-900">
+    <Section>
       <Container>
         <div className="grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
-            <h2 className="text-3xl font-semibold md:text-4xl">How it works</h2>
+            <h2 className="text-3xl leading-[1.1] md:text-4xl">How it works</h2>
           </Reveal>
 
           <div className="lg:col-span-8">
             <ol className="grid gap-8 sm:grid-cols-3">
               {steps.map((step, i) => (
                 <Reveal key={step.title} delay={i * 0.08}>
-                  <li className="list-none">
-                    <span className="font-display text-2xl font-semibold text-accent-600 dark:text-accent-300">
+                  <li className="list-none border-t border-paper-200/15 pt-5">
+                    <span className="font-mono text-sm text-accent-500">
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <h3 className="mt-3 text-lg font-semibold">{step.title}</h3>
-                    <p className="mt-2 leading-relaxed text-ink-700 dark:text-ink-400">{step.body}</p>
+                    <h3 className="mt-3 text-xl">{step.title}</h3>
+                    <p className="mt-2 leading-relaxed text-paper-400">{step.body}</p>
                   </li>
                 </Reveal>
               ))}
@@ -316,52 +313,46 @@ function HowItWorks() {
 
 function Plans() {
   return (
-    <Section id="plans">
+    <Section id="plans" className="border-t border-paper-200/10">
       <Container>
         <Reveal>
-          <h2 className="max-w-[20ch] text-3xl font-semibold md:text-4xl">
+          <h2 className="max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
             Plans built around mentor hours
           </h2>
-          <p className="mt-4 max-w-[56ch] leading-relaxed text-ink-700 dark:text-ink-400">
+          <p className="mt-5 max-w-[56ch] leading-relaxed text-paper-400">
             Every paid plan includes weekly investor matches. The difference is how many hours you
             get and how far the advisory goes.
           </p>
         </Reveal>
 
-        <div className="mt-12 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {plans.map((plan, i) => (
             <Reveal key={plan.name} delay={i * 0.06}>
               <div
                 className={cn(
                   "flex h-full flex-col rounded-[var(--radius-card)] border p-6",
                   plan.featured
-                    ? "border-accent-500 bg-white shadow-[0_1px_24px_rgba(18,143,102,0.12)] dark:bg-ink-900"
-                    : "border-ink-900/10 bg-white dark:border-paper-100/10 dark:bg-ink-900",
+                    ? "border-accent-500/60 bg-ink-900"
+                    : "border-paper-200/10 bg-ink-900",
                 )}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-lg font-semibold">{plan.name}</h3>
+                  <h3 className="text-xl">{plan.name}</h3>
                   {plan.featured && (
-                    <span className="rounded-full bg-accent-50 px-2.5 py-1 text-xs font-medium text-accent-700 dark:bg-accent-700/25 dark:text-accent-300">
+                    <span className="rounded-full bg-accent-500/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] text-accent-400 uppercase">
                       Most chosen
                     </span>
                   )}
                 </div>
 
-                <p className="mt-3 font-display text-2xl font-semibold">{plan.hours}</p>
-                <p className="mt-2 text-sm leading-relaxed text-ink-700 dark:text-ink-400">
-                  {plan.summary}
-                </p>
+                <p className="mt-3 font-display text-2xl text-paper-50">{plan.hours}</p>
+                <p className="mt-2 text-sm leading-relaxed text-paper-400">{plan.summary}</p>
 
                 <ul className="mt-6 flex flex-1 flex-col gap-2.5">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex gap-2.5 text-sm">
-                      <CheckIcon
-                        size={17}
-                        weight="bold"
-                        className="mt-0.5 shrink-0 text-accent-600 dark:text-accent-300"
-                      />
-                      <span className="text-ink-700 dark:text-ink-400">{feature}</span>
+                      <CheckIcon size={16} weight="bold" className="mt-1 shrink-0 text-accent-500" />
+                      <span className="text-paper-400">{feature}</span>
                     </li>
                   ))}
                 </ul>
@@ -384,26 +375,24 @@ function Plans() {
 
 function Faq() {
   return (
-    <Section id="faq" className="border-t border-ink-900/8 dark:border-paper-100/10">
+    <Section id="faq" className="border-t border-paper-200/10">
       <Container>
         <div className="grid gap-12 lg:grid-cols-12">
           <Reveal className="lg:col-span-4">
-            <h2 className="text-3xl font-semibold md:text-4xl">Questions</h2>
+            <h2 className="text-3xl leading-[1.1] md:text-4xl">Questions</h2>
           </Reveal>
 
           <div className="lg:col-span-8">
             {faqs.map((faq, i) => (
               <Reveal key={faq.q} delay={i * 0.05}>
-                <details className="group border-b border-ink-900/10 py-5 dark:border-paper-100/10">
-                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left font-medium">
+                <details className="group border-b border-paper-200/10 py-5">
+                  <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-left font-medium text-paper-50">
                     {faq.q}
-                    <span className="shrink-0 text-ink-500 transition-transform group-open:rotate-45 dark:text-ink-400">
+                    <span className="shrink-0 text-paper-500 transition-transform group-open:rotate-45">
                       <PlusGlyph />
                     </span>
                   </summary>
-                  <p className="mt-3 max-w-[62ch] leading-relaxed text-ink-700 dark:text-ink-400">
-                    {faq.a}
-                  </p>
+                  <p className="mt-3 max-w-[62ch] leading-relaxed text-paper-400">{faq.a}</p>
                 </details>
               </Reveal>
             ))}
@@ -424,17 +413,17 @@ function PlusGlyph() {
 
 function FinalCta() {
   return (
-    <Section className="pt-0">
+    <Section>
       <Container>
         <Reveal>
-          <div className="rounded-[var(--radius-card)] bg-ink-900 px-7 py-14 text-center sm:px-14 dark:bg-ink-800">
-            <h2 className="mx-auto max-w-[20ch] text-3xl font-semibold text-paper-50 md:text-4xl">
+          <div className="rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 px-7 py-16 text-center sm:px-14">
+            <h2 className="mx-auto max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
               Book your first mentor session this week
             </h2>
-            <p className="mx-auto mt-4 max-w-[48ch] leading-relaxed text-paper-200/70">
+            <p className="mx-auto mt-5 max-w-[48ch] leading-relaxed text-paper-400">
               Create a founder account, browse mentors by expertise, and put time on the calendar.
             </p>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-9 flex justify-center">
               <ButtonLink to="/signup" size="lg">
                 Get started
                 <ArrowRightIcon size={18} weight="bold" />
@@ -449,28 +438,25 @@ function FinalCta() {
 
 function SiteFooter() {
   return (
-    <footer className="border-t border-ink-900/8 py-12 dark:border-paper-100/10">
+    <footer className="border-t border-paper-200/10 py-12">
       <Container>
         <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
           <div>
-            <p className="font-display text-lg font-semibold">FBC</p>
-            <p className="mt-1 text-sm text-ink-500 dark:text-ink-400">
+            <p className="font-display text-lg text-paper-50">FBC</p>
+            <p className="mt-1 text-sm text-paper-500">
               Advisory and investor access for early-stage founders.
             </p>
           </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-ink-700 dark:text-ink-400">
-            <a href="#advisory" className="hover:text-ink-900 dark:hover:text-paper-100">
+          <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-paper-400">
+            <a href="#advisory" className="hover:text-paper-50">
               Advisory
             </a>
-            <a href="#plans" className="hover:text-ink-900 dark:hover:text-paper-100">
+            <a href="#plans" className="hover:text-paper-50">
               Plans
             </a>
-            <a href="#faq" className="hover:text-ink-900 dark:hover:text-paper-100">
+            <a href="#faq" className="hover:text-paper-50">
               FAQ
             </a>
-            <Link to="/login" className="hover:text-ink-900 dark:hover:text-paper-100">
-              Log in
-            </Link>
           </nav>
         </div>
       </Container>

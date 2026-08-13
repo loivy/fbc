@@ -35,7 +35,7 @@ export function LoginPage() {
       footer={
         <>
           Need an account?{" "}
-          <Link to="/signup" className="font-medium text-accent-600 dark:text-accent-300">
+          <Link to="/signup" className="font-medium text-accent-400">
             Create one
           </Link>
         </>

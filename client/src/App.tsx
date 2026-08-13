@@ -11,9 +11,9 @@ function FirebaseSetupNotice() {
   return (
     <div className="mx-auto max-w-lg px-5 py-24">
       <h1 className="text-2xl font-semibold">Firebase not configured</h1>
-      <p className="mt-4 leading-relaxed text-ink-700 dark:text-ink-400">
-        Copy <code className="rounded bg-paper-200 px-1.5 py-0.5 text-sm dark:bg-ink-800">client/.env.example</code>{" "}
-        to <code className="rounded bg-paper-200 px-1.5 py-0.5 text-sm dark:bg-ink-800">client/.env</code> and fill in
+      <p className="mt-4 leading-relaxed text-paper-400">
+        Copy <code className="rounded bg-ink-800 px-1.5 py-0.5 text-sm text-paper-50">client/.env.example</code>{" "}
+        to <code className="rounded bg-ink-800 px-1.5 py-0.5 text-sm text-paper-50">client/.env</code> and fill in
         your Firebase project's web app config (API key, auth domain, project ID, app ID), then
         restart the dev server.
       </p>

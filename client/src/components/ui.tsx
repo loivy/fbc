@@ -25,10 +25,15 @@ export function Section({
   );
 }
 
+/** Small mono label above a section headline. Used sparingly, not on every section. */
+export function Eyebrow({ children }: { children: ReactNode }) {
+  return <p className="eyebrow">{children}</p>;
+}
+
 // Radius lock: buttons are full-pill everywhere on the site.
 const buttonBase =
   "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap " +
-  "transition-[transform,background-color,border-color] duration-200 active:scale-[0.98] " +
+  "transition-[transform,background-color,border-color,color] duration-200 active:scale-[0.98] " +
   "disabled:pointer-events-none disabled:opacity-50";
 
 const buttonSizes = {
@@ -36,18 +41,14 @@ const buttonSizes = {
   lg: "px-6 py-3 text-base",
 } as const;
 
-// Contrast checked against both themes (WCAG AA, 4.5:1 minimum).
-// Light: accent-600 on white text = 5.74:1.
-// Dark: the accent has to invert to a light fill with dark text; accent-500 on
-// white measured 4.08:1 and failed. accent-300 on ink-950 = 9.7:1.
+/*
+  Contrast is measured, not assumed. On the accent-500 fill, white text is
+  3.8:1 and fails AA, so the primary button uses near-black text at 5.2:1.
+*/
 const buttonVariants = {
-  primary:
-    "bg-accent-600 text-white hover:bg-accent-700 " +
-    "dark:bg-accent-300 dark:text-ink-950 dark:hover:bg-accent-500 dark:hover:text-white",
-  outline:
-    "border border-ink-900/15 text-ink-900 hover:border-ink-900/35 " +
-    "dark:border-paper-100/20 dark:text-paper-100 dark:hover:border-paper-100/40",
-  ghost: "text-ink-700 hover:text-ink-900 dark:text-ink-400 dark:hover:text-paper-100",
+  primary: "bg-accent-500 text-ink-950 hover:bg-accent-400",
+  outline: "border border-paper-200/25 text-paper-50 hover:border-paper-200/55",
+  ghost: "text-paper-400 hover:text-paper-50",
 } as const;
 
 interface ButtonStyleProps {
@@ -92,8 +93,7 @@ export function Card({ children, className }: { children: ReactNode; className?:
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-card)] border border-ink-900/10 bg-white p-6",
-        "dark:border-paper-100/10 dark:bg-ink-900",
+        "rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-6",
         className,
       )}
     >
@@ -115,17 +115,16 @@ export function Field({
 }) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-sm font-medium text-ink-900 dark:text-paper-100">{label}</span>
+      <span className="text-sm font-medium text-paper-50">{label}</span>
       {children}
-      {hint && !error && <span className="text-xs text-ink-500 dark:text-ink-400">{hint}</span>}
-      {error && <span className="text-xs text-red-600 dark:text-red-400">{error}</span>}
+      {hint && !error && <span className="text-xs text-paper-500">{hint}</span>}
+      {error && <span className="text-xs text-red-400">{error}</span>}
     </label>
   );
 }
 
-// Contrast-checked: ink-500 placeholder clears AA on both paper and ink surfaces.
+// paper-400 placeholder on the ink-900 field clears AA.
 export const inputClass =
-  "w-full rounded-[var(--radius-input)] border border-ink-900/15 bg-white px-3.5 py-2.5 text-sm " +
-  "text-ink-900 placeholder:text-ink-500 transition-colors " +
-  "focus:border-accent-500 focus:outline-none focus-visible:outline-none " +
-  "dark:border-paper-100/15 dark:bg-ink-900 dark:text-paper-100 dark:placeholder:text-ink-400";
+  "w-full rounded-[var(--radius-input)] border border-paper-200/15 bg-ink-900 px-3.5 py-2.5 text-sm " +
+  "text-paper-50 placeholder:text-paper-400 transition-colors " +
+  "focus:border-accent-500 focus:outline-none focus-visible:outline-none";

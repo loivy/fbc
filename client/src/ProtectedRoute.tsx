@@ -10,7 +10,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
   if (status === "loading") {
     return (
       <Container className="py-24">
-        <p className="text-ink-500 dark:text-ink-400">Loading your account...</p>
+        <p className="text-paper-500">Loading your account...</p>
       </Container>
     );
   }
@@ -26,7 +26,7 @@ export function ProtectedRoute({ children }: { children: ReactNode }) {
       <Container className="py-24">
         <div className="max-w-md">
           <h1 className="text-2xl font-semibold">We could not load your account</h1>
-          <p className="mt-3 leading-relaxed text-ink-700 dark:text-ink-400">
+          <p className="mt-3 leading-relaxed text-paper-400">
             {error ?? "Something went wrong loading your profile."}
           </p>
           <Button

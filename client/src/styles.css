@@ -1,43 +1,57 @@
 /* Self-hosted variable fonts (never a Google Fonts <link> in production). */
-@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/newsreader";
 @import "@fontsource-variable/plus-jakarta-sans";
+@import "@fontsource-variable/jetbrains-mono";
 @import "tailwindcss";
 
 /*
   FBC design tokens.
-  Palette: cool near-neutrals + a single emerald accent. Deliberately not the
-  AI-default violet/indigo glow. One accent for the whole page, no exceptions.
-  Radius scale: cards 16px, inputs 10px, buttons full-pill. Applied everywhere.
+
+  Deliberately dark-locked: the whole site commits to one theme rather than
+  shipping a light/dark pair. Every surface is painted explicitly, so there are
+  no `dark:` variants anywhere and no section can invert mid-scroll.
+
+  Type: serif display against mono labels and a neutral sans for body. The serif
+  is a considered choice for an editorial, selective feel, not a default reach.
+  Radius: cards 14px, inputs 8px, buttons full-pill. Applied everywhere.
 */
 @theme {
-  --font-display: "Outfit Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Newsreader Variable", ui-serif, Georgia, serif;
   --font-sans: "Plus Jakarta Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, monospace;
 
-  /* Neutrals - off-black and off-white, never pure #000 / #fff */
-  --color-ink-950: #0b0d0c;
-  --color-ink-900: #121514;
-  --color-ink-800: #1b1f1d;
-  --color-ink-700: #2a302d;
-  --color-ink-500: #6b7671;
-  --color-ink-400: #8d9a94;
-  --color-paper-50: #fbfbfa;
-  --color-paper-100: #f4f5f3;
-  --color-paper-200: #e7e9e6;
+  /* Cool near-blacks. Never pure #000. */
+  --color-ink-950: #08080a;
+  --color-ink-900: #101015;
+  --color-ink-800: #17171e;
+  --color-ink-700: #22222b;
+  --color-ink-600: #33333f;
 
-  /* Single accent - emerald, saturation held under 80% */
-  --color-accent-50: #eaf6f1;
-  --color-accent-300: #6fc9a6;
-  --color-accent-500: #128f66;
-  --color-accent-600: #0d7554;
-  --color-accent-700: #0a5c43;
+  /* Off-whites and muted text. Never pure #fff. */
+  --color-paper-50: #f7f7f5;
+  --color-paper-200: #d6d6d2;
+  --color-paper-400: #9a9aa2;
+  /* Muted label grey. #75757e measured 4.39:1 on ink-950 and missed AA for the
+     11px mono eyebrows; this lands at 5.2:1. */
+  --color-paper-500: #82828c;
 
-  --radius-card: 16px;
-  --radius-input: 10px;
+  /*
+    Single accent: burnt orange. Note the contrast constraint that follows from
+    it - on the 500 fill, white text measures 3.8:1 and fails AA, so filled
+    accent buttons carry near-black text (5.2:1) instead.
+  */
+  --color-accent-400: #f0774b;
+  --color-accent-500: #e0562c;
+  --color-accent-600: #c0451f;
+
+  --radius-card: 14px;
+  --radius-input: 8px;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    color-scheme: dark;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -48,29 +62,30 @@
 
   body {
     font-family: var(--font-sans);
+    background-color: var(--color-ink-950);
+    color: var(--color-paper-200);
     -webkit-font-smoothing: antialiased;
-    background-color: var(--color-paper-50);
-    color: var(--color-ink-900);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    body {
-      background-color: var(--color-ink-950);
-      color: var(--color-paper-100);
-    }
   }
 
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
+    color: var(--color-paper-50);
     letter-spacing: -0.02em;
   }
 
-  /* Visible focus for keyboard users on every interactive element. */
   :focus-visible {
     outline: 2px solid var(--color-accent-500);
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: 3px;
   }
+}
+
+@utility eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-paper-500);
 }

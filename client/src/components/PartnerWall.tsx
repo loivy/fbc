@@ -1,100 +1,92 @@
 import { Reveal } from "./Reveal";
-import { Container, Section } from "./ui";
+import { Container, Eyebrow, Section } from "./ui";
 
 export interface Partner {
-  /** Display name of the accelerator or fund. */
   name: string;
-  /**
-   * Simple Icons slug, when the brand has one (https://simpleicons.org).
-   * Leave undefined to fall back to a monogram tile.
-   */
-  slug?: string;
-  /** Optional link to the partner's site. */
   href?: string;
 }
 
 /*
-  Real partners only. This list is empty until confirmed names are supplied,
-  and the section hides itself while it is empty, so the live site never shows
-  accelerator or fund logos the platform cannot actually claim.
+  Real names only, supplied by the FBC team. Wordmarks rather than logo files:
+  these are third-party brands whose logo assets we do not hold a licence to
+  redistribute, and most VC marks are wordmarks anyway.
+  Each group hides itself when empty.
 */
-export const partners: Partner[] = [];
+export const accelerators: Partner[] = [
+  { name: "Y Combinator", href: "https://www.ycombinator.com" },
+  { name: "a16z", href: "https://a16z.com" },
+  { name: "South Park Commons", href: "https://www.southparkcommons.com" },
+  { name: "Pear VC", href: "https://pear.vc" },
+];
 
-export function PartnerWall({ items = partners }: { items?: Partner[] }) {
-  if (items.length === 0) return null;
+export const funds: Partner[] = [{ name: "Sequoia", href: "https://www.sequoiacap.com" }];
+
+export function PartnerWall({
+  acceleratorItems = accelerators,
+  fundItems = funds,
+}: {
+  acceleratorItems?: Partner[];
+  fundItems?: Partner[];
+}) {
+  if (acceleratorItems.length === 0 && fundItems.length === 0) return null;
 
   return (
-    <Section
-      id="partners"
-      className="border-y border-ink-900/8 bg-paper-100 dark:border-paper-100/10 dark:bg-ink-900"
-    >
+    <Section id="partners" className="border-y border-paper-200/10 bg-ink-900">
       <Container>
         <Reveal>
-          <h2 className="max-w-[24ch] text-3xl font-semibold md:text-4xl">
-            Where our founders have landed
+          <Eyebrow>Founder outcomes</Eyebrow>
+          <h2 className="mt-4 max-w-[22ch] text-3xl leading-[1.1] md:text-5xl">
+            Where founders from the platform have landed
           </h2>
-          <p className="mt-4 max-w-[56ch] leading-relaxed text-ink-700 dark:text-ink-400">
-            Accelerators and funds that have taken on founders from the platform.
-          </p>
         </Reveal>
 
-        <Reveal delay={0.08}>
-          <ul className="mt-12 grid grid-cols-2 items-center gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
-            {items.map((partner) => (
-              <li key={partner.name} className="flex items-center justify-center">
-                <PartnerMark partner={partner} />
-              </li>
-            ))}
-          </ul>
-        </Reveal>
+        {acceleratorItems.length > 0 && (
+          <PartnerGroup label="Accepted into" items={acceleratorItems} delay={0.08} />
+        )}
+        {fundItems.length > 0 && <PartnerGroup label="Raised from" items={fundItems} delay={0.16} />}
       </Container>
     </Section>
   );
 }
 
-/* Logo only. No category or industry label underneath. */
-function PartnerMark({ partner }: { partner: Partner }) {
-  const mark = partner.slug ? (
-    <img
-      // Single-color rendering keeps the wall coherent and readable in both themes.
-      src={`https://cdn.simpleicons.org/${partner.slug}/6b7671`}
-      alt={partner.name}
-      width={112}
-      height={32}
-      loading="lazy"
-      className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100 dark:opacity-70 dark:invert-0"
-    />
-  ) : (
-    <Monogram name={partner.name} />
+function PartnerGroup({
+  label,
+  items,
+  delay,
+}: {
+  label: string;
+  items: Partner[];
+  delay: number;
+}) {
+  return (
+    <Reveal delay={delay}>
+      <div className="mt-14 border-t border-paper-200/10 pt-8">
+        <p className="font-mono text-[11px] tracking-[0.18em] text-paper-500 uppercase">{label}</p>
+        <ul className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 sm:gap-x-14">
+          {items.map((partner) => (
+            <li key={partner.name}>
+              <Wordmark partner={partner} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Reveal>
+  );
+}
+
+/* Wordmark only. No category label underneath. */
+function Wordmark({ partner }: { partner: Partner }) {
+  const mark = (
+    <span className="font-display text-xl font-medium tracking-tight text-paper-200 transition-colors hover:text-paper-50 sm:text-2xl">
+      {partner.name}
+    </span>
   );
 
   if (!partner.href) return mark;
 
   return (
-    <a href={partner.href} target="_blank" rel="noreferrer noopener" aria-label={partner.name}>
+    <a href={partner.href} target="_blank" rel="noreferrer noopener">
       {mark}
     </a>
-  );
-}
-
-/** Fallback for brands Simple Icons does not carry. */
-function Monogram({ name }: { name: string }) {
-  const initials = name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-
-  return (
-    <span className="flex items-center gap-3">
-      <span
-        aria-hidden="true"
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-ink-900/15 font-display text-sm font-semibold text-ink-700 dark:border-paper-100/20 dark:text-ink-400"
-      >
-        {initials}
-      </span>
-      <span className="font-display text-sm font-medium text-ink-700 dark:text-ink-400">{name}</span>
-    </span>
   );
 }

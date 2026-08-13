@@ -41,7 +41,7 @@ export function SignupPage() {
       footer={
         <>
           Already have an account?{" "}
-          <Link to="/login" className="font-medium text-accent-600 dark:text-accent-300">
+          <Link to="/login" className="font-medium text-accent-400">
             Log in
           </Link>
         </>
