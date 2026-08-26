@@ -1,4 +1,5 @@
 import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react";
+import { FundComingSoon } from "../components/FundComingSoon";
 import { MarketingHeader } from "../components/MarketingHeader";
 import { PartnerWall } from "../components/PartnerWall";
 import { Reveal } from "../components/Reveal";
@@ -94,6 +95,7 @@ export function LandingPage() {
         <TheBench />
         <HowItWorks />
         <Plans />
+        <FundComingSoon />
         <Faq />
         <FinalCta />
       </main>
@@ -109,12 +111,9 @@ function Hero() {
       <Container>
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
-            <Reveal>
-              <Eyebrow>Advisory · Investor access · Events</Eyebrow>
-            </Reveal>
             <Reveal delay={0.06}>
               {/* Scale tuned so the headline holds 2 lines at desktop in this column. */}
-              <h1 className="mt-5 text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
+              <h1 className="text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
                 Straight answers on building and raising
               </h1>
             </Reveal>
@@ -141,11 +140,13 @@ function Hero() {
           </div>
 
           <Reveal delay={0.14} className="lg:col-span-5">
+            {/* Unsplash, hotlinked per their licence. LCP image: eager + high priority. */}
             <img
-              src="https://picsum.photos/seed/fbc-founder-workspace/1200/900"
-              alt="Founders working together at a shared table"
+              src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1200&h=900&q=80"
+              alt="A founder presenting to investors across a table"
               width={1200}
               height={900}
+              fetchPriority="high"
               className="aspect-[4/3] w-full rounded-[var(--radius-card)] object-cover"
             />
           </Reveal>
@@ -173,10 +174,11 @@ function Pillars() {
           <Reveal className="md:col-span-2 md:row-span-2">
             <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900">
               <img
-                src="https://picsum.photos/seed/fbc-mentor-conversation/1000/620"
-                alt="A mentor and founder in conversation"
+                src="https://images.unsplash.com/photo-1559136656-3db4bf6c35f8?auto=format&fit=crop&w=1000&h=620&q=80"
+                alt="A mentor and founder talking across a desk"
                 width={1000}
                 height={620}
+                loading="lazy"
                 className="aspect-[16/10] w-full object-cover"
               />
               <div className="p-7">
@@ -209,9 +211,8 @@ function Pillars() {
           </Reveal>
 
           <Reveal delay={0.16}>
-            <div className="flex h-full flex-col justify-between rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-7">
-              <p className="eyebrow">All plans</p>
-              <div className="mt-8">
+            <div className="flex h-full flex-col justify-end rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-7">
+              <div>
                 <h3 className="text-2xl">Events</h3>
                 <p className="mt-3 leading-relaxed text-paper-400">
                   Workshops and founder sessions, open to every account including free ones.
@@ -246,8 +247,7 @@ function TheBench() {
     <Section className="border-y border-paper-200/10 bg-ink-900">
       <Container>
         <Reveal>
-          <Eyebrow>The bench</Eyebrow>
-          <h2 className="mt-4 max-w-[24ch] text-3xl leading-[1.1] md:text-5xl">
+          <h2 className="max-w-[24ch] text-3xl leading-[1.1] md:text-5xl">
             A small bench, chosen for the raise you are actually running
           </h2>
         </Reveal>

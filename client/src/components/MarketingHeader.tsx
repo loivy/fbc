@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { ButtonLink, Container, cn } from "./ui";
 
+// Kept short so the row stays on one line at lg.
 const navLinks = [
   { label: "Advisory", href: "#advisory" },
-  { label: "Investors", href: "#investors" },
+  { label: "Network", href: "#partners" },
   { label: "Plans", href: "#plans" },
+  { label: "Fund", href: "#fund" },
   { label: "FAQ", href: "#faq" },
 ];
 
