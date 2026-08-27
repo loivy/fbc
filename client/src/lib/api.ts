@@ -88,4 +88,24 @@ export const api = {
 
   updateMe: (data: { name?: string; bio?: string }) =>
     request<UserProfile>("/api/users/me", { method: "PATCH", body: JSON.stringify(data) }),
+
+  // Public: submitted by founders who do not have an account.
+  submitApplication: (data: ApplicationInput) =>
+    request<{ ok: true }>("/api/applications", { method: "POST", body: JSON.stringify(data) }),
 };
+
+export type CompanyStage = "IDEA" | "PRE_SEED" | "SEED" | "SERIES_A_PLUS";
+
+export interface ApplicationInput {
+  companyName: string;
+  website?: string;
+  oneLiner: string;
+  stage: CompanyStage;
+  founderName: string;
+  founderEmail: string;
+  founderProfileUrl: string;
+  deckUrl: string;
+  raising?: string;
+  notes?: string;
+  website2?: string;
+}

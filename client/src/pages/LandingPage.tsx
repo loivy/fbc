@@ -1,85 +1,62 @@
-import { ArrowRightIcon, CheckIcon } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
+import { ArrowRightIcon } from "@phosphor-icons/react";
 import { FundComingSoon } from "../components/FundComingSoon";
 import { MarketingHeader } from "../components/MarketingHeader";
 import { PartnerWall } from "../components/PartnerWall";
 import { Reveal } from "../components/Reveal";
-import { ButtonLink, Container, Eyebrow, Section, cn } from "../components/ui";
+import { ButtonLink, Container, Eyebrow, Section } from "../components/ui";
 
 /*
-  Design read: landing for early-stage founders evaluating a paid advisory
-  program. Dark editorial language, serif display against mono labels, one
-  burnt-orange accent. Reference direction supplied by the FBC team.
+  Design read: landing for early-stage founders considering applying. Dark
+  editorial language, serif display against mono labels, one burnt-orange accent.
+  Reference direction supplied by the FBC team.
   DESIGN_VARIANCE 7 / MOTION_INTENSITY 5 / VISUAL_DENSITY 4.
 
-  TODO(content): hero imagery is a Picsum placeholder keyed by seed. Replace
-  with real photography before paid traffic.
-  TODO(content): plan prices are not published because they have not been set.
-  Add the monthly figure to each entry in `plans`.
-  No outcome statistics appear here on purpose. Numbers like "capital raised"
-  or "companies founded" need real data behind them before they go on a live page.
+  Pricing and plan tiers are deliberately absent from this page. The tier system
+  still exists in the product; it is just not the public pitch, and the entry
+  point is the application rather than a self-serve signup.
+
+  No outcome statistics appear here on purpose. Numbers like "capital raised" or
+  "companies founded" need real data behind them before they go on a live page.
 */
 
-const plans = [
+const services = [
   {
-    name: "Free",
-    hours: "Pay per hour",
-    summary: "Public events and mentor sessions billed per hour.",
-    features: ["Public events", "Book mentors at the hourly rate", "Founder profile"],
-    featured: false,
+    title: "Tell the story properly",
+    body: "Most decks lose the room in the first two minutes. We work on the narrative until the problem, the insight, and the reason it is you land in order.",
+    image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1000&h=620&q=80",
+    alt: "A founder presenting to a room",
   },
   {
-    name: "Tier 1",
-    hours: "4 hours a month",
-    summary: "General business strategy, plus weekly investor matches.",
-    features: ["4 mentor hours a month", "General business strategy", "5 investor matches a week"],
-    featured: false,
+    title: "Get into an accelerator",
+    body: "Application review, interview practice, and the judgement of people who have sat on both sides of that table.",
   },
   {
-    name: "Tier 2",
-    hours: "6 hours a month",
-    summary: "Everything in Tier 1, plus support on one accelerator application.",
-    features: [
-      "6 mentor hours a month",
-      "Apply to one accelerator",
-      "5 investor matches a week",
-      "General business strategy",
-    ],
-    featured: true,
-  },
-  {
-    name: "Tier 3",
-    hours: "8 hours a month",
-    summary: "Multiple accelerator applications and direct investor outreach.",
-    features: [
-      "8 mentor hours a month",
-      "Apply to multiple accelerators",
-      "Investor outreach support",
-      "5 investor matches a week",
-    ],
-    featured: false,
+    title: "Raise from investors",
+    body: "Target list, warm paths in, and the referral itself when your company is ready for the funds we work with.",
   },
 ];
 
 const faqs = [
   {
-    q: "Who are the mentors?",
-    a: "Operators and advisors who have raised rounds and built companies. You pick who you book based on their expertise, not a random assignment.",
+    q: "Who is this for?",
+    a: "Early-stage founders who are about to raise or about to apply somewhere, and want the story and the process to be right before they do.",
   },
   {
-    q: "What happens to hours I do not use?",
-    a: "Your allotment resets when your billing cycle renews. If you need more time than your plan includes, you can book extra hours at the standard rate.",
-  },
-  {
-    q: "How does investor matching work?",
-    a: "Every week you receive five investors matched on your industry, stage, and raise. You choose which ones to pursue, and they choose whether to take the intro.",
-  },
-  {
-    q: "Can I change plans later?",
-    a: "Yes. You can move up or down at any point, and your mentor hours adjust from the next billing cycle.",
+    q: "What happens after I submit?",
+    a: "We read every submission. If it looks like a fit we set up a short interview, and the strongest companies get referred to funds we work with.",
   },
   {
     q: "Do I need to be raising right now?",
-    a: "No. Plenty of founders use advisory hours for strategy well before a raise. Investor matching is there when you are ready for it.",
+    a: "No. Plenty of founders work on the narrative and the target list well before the round opens. That work is easier when it is not urgent.",
+  },
+  {
+    q: "Who are the mentors?",
+    a: "Operators and advisors who have raised rounds and built companies. You work with the ones whose experience matches what you are trying to do.",
+  },
+  {
+    q: "Does submitting guarantee a referral?",
+    a: "No. Referrals only mean anything if they are selective, so we make them when we genuinely believe in the company. If it is not a fit we say so.",
   },
 ];
 
@@ -91,10 +68,9 @@ export function LandingPage() {
         <Hero />
         {/* Outcome wall sits under the hero, never inside it. */}
         <PartnerWall />
-        <Pillars />
+        <Services />
         <TheBench />
         <HowItWorks />
-        <Plans />
         <FundComingSoon />
         <Faq />
         <FinalCta />
@@ -119,21 +95,21 @@ function Hero() {
             </Reveal>
             <Reveal delay={0.12}>
               <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-paper-400">
-                Book hours with mentors who have raised real rounds, and meet five matched investors
-                every week.
+                We sharpen your story, get you through accelerator doors, and refer the strongest
+                companies to the funds we work with.
               </p>
             </Reveal>
             <Reveal delay={0.18}>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink to="/signup" size="lg">
-                  Get started
+                <ButtonLink to="/apply" size="lg">
+                  Submit your company
                   <ArrowRightIcon size={18} weight="bold" />
                 </ButtonLink>
                 <a
-                  href="#plans"
+                  href="#advisory"
                   className="inline-flex items-center justify-center rounded-full border border-paper-200/25 px-6 py-3 text-base font-medium text-paper-50 transition-colors hover:border-paper-200/55"
                 >
-                  See plans
+                  What we do
                 </a>
               </div>
             </Reveal>
@@ -157,16 +133,21 @@ function Hero() {
 }
 
 /*
-  Bento with three cells for three offerings. Cell sizes and surfaces vary
-  deliberately: one photographic, one accent-filled, one plain.
+  What we do. Bento with three cells for three services: the first carries a
+  photograph and spans two columns, the second is the accent fill, the third is
+  a plain surface. Sizes and surfaces vary so it does not read as three
+  identical feature cards.
 */
-function Pillars() {
+function Services() {
+  const [story, accelerators, investors] = services;
+
   return (
     <Section id="advisory">
       <Container>
         <Reveal>
-          <h2 className="max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
-            Three ways the platform moves your round forward
+          <Eyebrow>What we do</Eyebrow>
+          <h2 className="mt-4 max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
+            Three things that decide whether the round happens
           </h2>
         </Reveal>
 
@@ -174,49 +155,39 @@ function Pillars() {
           <Reveal className="md:col-span-2 md:row-span-2">
             <div className="flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900">
               <img
-                src="https://images.unsplash.com/photo-1559136656-3db4bf6c35f8?auto=format&fit=crop&w=1000&h=620&q=80"
-                alt="A mentor and founder talking across a desk"
+                src={story.image}
+                alt={story.alt}
                 width={1000}
                 height={620}
                 loading="lazy"
                 className="aspect-[16/10] w-full object-cover"
               />
               <div className="p-7">
-                <h3 className="text-2xl">Founder advisory</h3>
-                <p className="mt-3 max-w-[46ch] leading-relaxed text-paper-400">
-                  Book time with mentors on general strategy, accelerator applications, or investor
-                  outreach. Your plan includes a set number of hours each month.
-                </p>
+                <h3 className="text-2xl">{story.title}</h3>
+                <p className="mt-3 max-w-[46ch] leading-relaxed text-paper-400">{story.body}</p>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.08}>
-            <div
-              id="investors"
-              className="flex h-full flex-col justify-between rounded-[var(--radius-card)] bg-accent-500 p-7"
-            >
-              {/* Solid ink on the accent fill: the translucent variants measured
+            <div className="flex h-full flex-col justify-end rounded-[var(--radius-card)] bg-accent-500 p-7">
+              {/* Solid ink on the accent fill: translucent variants measured
                   3.7:1 and 4.4:1 and missed AA. Solid is 5.2:1. */}
-              <p className="font-mono text-[11px] tracking-[0.18em] text-ink-950 uppercase">
-                Weekly
-              </p>
-              <div className="mt-8">
-                <h3 className="text-2xl text-ink-950">Investor matching</h3>
-                <p className="mt-3 leading-relaxed text-ink-950">
-                  Five investors matched to your stage and sector, every week, on any paid plan.
-                </p>
+              <div>
+                <h3 className="text-2xl text-ink-950">{accelerators.title}</h3>
+                <p className="mt-3 leading-relaxed text-ink-950">{accelerators.body}</p>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.16}>
-            <div className="flex h-full flex-col justify-end rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-7">
+            <div
+              id="investors"
+              className="flex h-full flex-col justify-end rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 p-7"
+            >
               <div>
-                <h3 className="text-2xl">Events</h3>
-                <p className="mt-3 leading-relaxed text-paper-400">
-                  Workshops and founder sessions, open to every account including free ones.
-                </p>
+                <h3 className="text-2xl">{investors.title}</h3>
+                <p className="mt-3 leading-relaxed text-paper-400">{investors.body}</p>
               </div>
             </div>
           </Reveal>
@@ -235,11 +206,11 @@ function TheBench() {
     },
     {
       lead: "Three specialisms",
-      body: "General strategy, accelerator applications, and investor outreach. Tiers unlock the deeper two.",
+      body: "Narrative and positioning, accelerator applications, and investor outreach.",
     },
     {
-      lead: "Hours, not seats",
-      body: "Your plan buys mentor time each month. Unused hours reset when the cycle renews.",
+      lead: "They have done it",
+      body: "Every mentor has raised, operated, or sat on the other side of the table.",
     },
   ];
 
@@ -269,16 +240,16 @@ function TheBench() {
 function HowItWorks() {
   const steps = [
     {
-      title: "Pick a plan",
-      body: "Start free and pay per session, or take a monthly plan that bundles mentor hours.",
+      title: "Submit your company",
+      body: "Send us the company, your profile, and your deck. It takes a few minutes.",
     },
     {
-      title: "Choose your mentor",
-      body: "Browse by expertise and book an open slot. No matching queue, no waiting on an assignment.",
+      title: "Interview",
+      body: "If it looks like a fit we set up a conversation and work through the story with you.",
     },
     {
-      title: "Meet your investors",
-      body: "Paid plans receive five matched investors a week. Pursue the ones that fit your raise.",
+      title: "Get referred",
+      body: "The strongest companies are introduced to the funds and programmes we work with.",
     },
   ];
 
@@ -305,68 +276,6 @@ function HowItWorks() {
               ))}
             </ol>
           </div>
-        </div>
-      </Container>
-    </Section>
-  );
-}
-
-function Plans() {
-  return (
-    <Section id="plans" className="border-t border-paper-200/10">
-      <Container>
-        <Reveal>
-          <h2 className="max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
-            Plans built around mentor hours
-          </h2>
-          <p className="mt-5 max-w-[56ch] leading-relaxed text-paper-400">
-            Every paid plan includes weekly investor matches. The difference is how many hours you
-            get and how far the advisory goes.
-          </p>
-        </Reveal>
-
-        <div className="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {plans.map((plan, i) => (
-            <Reveal key={plan.name} delay={i * 0.06}>
-              <div
-                className={cn(
-                  "flex h-full flex-col rounded-[var(--radius-card)] border p-6",
-                  plan.featured
-                    ? "border-accent-500/60 bg-ink-900"
-                    : "border-paper-200/10 bg-ink-900",
-                )}
-              >
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-xl">{plan.name}</h3>
-                  {plan.featured && (
-                    <span className="rounded-full bg-accent-500/15 px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] text-accent-400 uppercase">
-                      Most chosen
-                    </span>
-                  )}
-                </div>
-
-                <p className="mt-3 font-display text-2xl text-paper-50">{plan.hours}</p>
-                <p className="mt-2 text-sm leading-relaxed text-paper-400">{plan.summary}</p>
-
-                <ul className="mt-6 flex flex-1 flex-col gap-2.5">
-                  {plan.features.map((feature) => (
-                    <li key={feature} className="flex gap-2.5 text-sm">
-                      <CheckIcon size={16} weight="bold" className="mt-1 shrink-0 text-accent-500" />
-                      <span className="text-paper-400">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <ButtonLink
-                  to="/signup"
-                  variant={plan.featured ? "primary" : "outline"}
-                  className="mt-7 w-full"
-                >
-                  Get started
-                </ButtonLink>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </Container>
     </Section>
@@ -418,14 +327,15 @@ function FinalCta() {
         <Reveal>
           <div className="rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 px-7 py-16 text-center sm:px-14">
             <h2 className="mx-auto max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
-              Book your first mentor session this week
+              Tell us what you are building
             </h2>
             <p className="mx-auto mt-5 max-w-[48ch] leading-relaxed text-paper-400">
-              Create a founder account, browse mentors by expertise, and put time on the calendar.
+              Send the company, your profile, and your deck. We read every submission and reply
+              either way.
             </p>
             <div className="mt-9 flex justify-center">
-              <ButtonLink to="/signup" size="lg">
-                Get started
+              <ButtonLink to="/apply" size="lg">
+                Submit your company
                 <ArrowRightIcon size={18} weight="bold" />
               </ButtonLink>
             </div>
@@ -449,14 +359,17 @@ function SiteFooter() {
           </div>
           <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-paper-400">
             <a href="#advisory" className="hover:text-paper-50">
-              Advisory
+              What we do
             </a>
-            <a href="#plans" className="hover:text-paper-50">
-              Plans
+            <a href="#fund" className="hover:text-paper-50">
+              Fund
             </a>
             <a href="#faq" className="hover:text-paper-50">
               FAQ
             </a>
+            <Link to="/apply" className="hover:text-paper-50">
+              Submit your company
+            </Link>
           </nav>
         </div>
       </Container>

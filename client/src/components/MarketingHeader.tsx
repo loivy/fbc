@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { ButtonLink, Container, cn } from "./ui";
 
-// Kept short so the row stays on one line at lg.
+// Kept short so the row stays on one line at lg. These are same-page anchors,
+// so they only resolve on the landing page; elsewhere they route home first.
 const navLinks = [
-  { label: "Advisory", href: "#advisory" },
-  { label: "Network", href: "#partners" },
-  { label: "Plans", href: "#plans" },
-  { label: "Fund", href: "#fund" },
-  { label: "FAQ", href: "#faq" },
+  { label: "What we do", href: "/#advisory" },
+  { label: "Network", href: "/#partners" },
+  { label: "Fund", href: "/#fund" },
+  { label: "FAQ", href: "/#faq" },
 ];
 
 export function MarketingHeader() {
@@ -43,7 +43,7 @@ export function MarketingHeader() {
             >
               Log in
             </Link>
-            <ButtonLink to="/signup">Get started</ButtonLink>
+            <ButtonLink to="/apply">Submit your company</ButtonLink>
           </div>
 
           <button
@@ -74,8 +74,8 @@ export function MarketingHeader() {
             <Link to="/login" className="py-2 text-sm text-paper-400">
               Log in
             </Link>
-            <ButtonLink to="/signup" className="mt-2 w-full">
-              Get started
+            <ButtonLink to="/apply" className="mt-2 w-full">
+              Submit your company
             </ButtonLink>
           </div>
         </Container>

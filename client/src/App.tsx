@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from "./lib/auth";
 import { firebaseConfigured } from "./lib/firebase";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { LandingPage } from "./pages/LandingPage";
+import { ApplyPage } from "./pages/ApplyPage";
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
 import { DashboardPage } from "./pages/DashboardPage";
@@ -50,6 +51,8 @@ export function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<LandingRoute />} />
+        {/* Public: applicants do not have accounts, and it needs no Firebase. */}
+        <Route path="/apply" element={<ApplyPage />} />
         <Route
           path="/signup"
           element={
