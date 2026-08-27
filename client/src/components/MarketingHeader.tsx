@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { ButtonLink, Container, cn } from "./ui";
 
-// Kept short so the row stays on one line at lg. These are same-page anchors,
-// so they only resolve on the landing page; elsewhere they route home first.
+// Kept short so the row stays on one line at lg. Anchors are prefixed with "/"
+// so they resolve from any page, not just the landing page.
 const navLinks = [
   { label: "What we do", href: "/#advisory" },
+  { label: "Mentors", href: "/mentors" },
   { label: "Network", href: "/#partners" },
   { label: "Fund", href: "/#fund" },
-  { label: "FAQ", href: "/#faq" },
 ];
 
 export function MarketingHeader() {

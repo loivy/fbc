@@ -1,32 +1,45 @@
+import { useState } from "react";
 import { Reveal } from "./Reveal";
 import { Container, Eyebrow, Section } from "./ui";
 
 export interface Partner {
   name: string;
+  /** Root domain. Drives the logo lookup, so only set it when it is certainly right. */
+  domain?: string;
   href?: string;
 }
 
 /*
-  Two separate claims, kept separate on purpose because they are not the same
-  thing: funds FBC holds a partnership with, and accelerators that people in the
-  community are currently part of. Collapsing them would overstate both.
+  Two separate claims, kept separate on purpose: funds and programmes FBC
+  partners with, and accelerators that people in the community are part of.
 
-  Real names only, supplied by the FBC team. Add to these arrays to extend either
-  list; each group hides itself when empty.
+  Ordered by recognition, most recognised first.
 
-  Wordmarks rather than logo files: these are third-party brands whose logo
-  assets we hold no licence to redistribute, and most of these marks are
-  wordmarks anyway.
+  Logos are fetched by domain rather than bundled, because we hold no licence to
+  redistribute these brands' logo files. A partner without a confident domain
+  falls back to a monogram, which is also what happens if a fetch fails or comes
+  back as a generic placeholder icon. Never guess a domain: the wrong one shows
+  a different company's logo.
 */
 export const partnerFunds: Partner[] = [
-  { name: "Sequoia", href: "https://www.sequoiacap.com" },
+  { name: "Sequoia Capital", domain: "sequoiacap.com", href: "https://www.sequoiacap.com" },
+  { name: "a16z", domain: "a16z.com", href: "https://a16z.com" },
+  { name: "Insight Partners", domain: "insightpartners.com", href: "https://www.insightpartners.com" },
+  { name: "Pear", domain: "pear.vc", href: "https://pear.vc" },
+  { name: "Antler", domain: "antler.co", href: "https://www.antler.co" },
+  // TODO(content): add domains for these three so their logos resolve.
+  { name: "Future Capital" },
+  { name: "Vision Plus Capital" },
+  { name: "Tech-do VC" },
 ];
 
 export const communityAccelerators: Partner[] = [
-  { name: "Y Combinator", href: "https://www.ycombinator.com" },
-  { name: "Pear VC", href: "https://pear.vc" },
-  { name: "a16z", href: "https://a16z.com" },
-  { name: "South Park Commons", href: "https://www.southparkcommons.com" },
+  { name: "Y Combinator", domain: "ycombinator.com", href: "https://www.ycombinator.com" },
+  {
+    name: "South Park Commons",
+    domain: "southparkcommons.com",
+    href: "https://www.southparkcommons.com",
+  },
 ];
 
 export function PartnerWall({
@@ -44,14 +57,14 @@ export function PartnerWall({
         <Reveal>
           <Eyebrow>Network</Eyebrow>
           <h2 className="mt-4 max-w-[22ch] text-3xl leading-[1.1] md:text-5xl">
-            The rooms our founders are already in
+            The rooms we can get you into
           </h2>
         </Reveal>
 
         {funds.length > 0 && (
           <PartnerGroup
-            label="Partner funds"
-            note="Funds we work with directly."
+            label="Partner funds and programmes"
+            note="Where we make introductions."
             items={funds}
             delay={0.08}
           />
@@ -59,8 +72,8 @@ export function PartnerWall({
 
         {accelerators.length > 0 && (
           <PartnerGroup
-            label="Community members are building at"
-            note="Programmes people in the FBC community are part of."
+            label="Members have gone on to"
+            note="Programmes people from the community joined."
             items={accelerators}
             delay={0.16}
           />
@@ -88,10 +101,10 @@ function PartnerGroup({
           <p className="font-mono text-[11px] tracking-[0.18em] text-paper-500 uppercase">{label}</p>
           <p className="text-sm text-paper-500">{note}</p>
         </div>
-        <ul className="mt-6 flex flex-wrap items-center gap-x-10 gap-y-6 sm:gap-x-14">
+        <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-4">
           {items.map((partner) => (
             <li key={partner.name}>
-              <Wordmark partner={partner} />
+              <PartnerMark partner={partner} />
             </li>
           ))}
         </ul>
@@ -100,19 +113,44 @@ function PartnerGroup({
   );
 }
 
-/* Wordmark only. No category label underneath. */
-function Wordmark({ partner }: { partner: Partner }) {
-  const mark = (
-    <span className="font-display text-xl tracking-tight text-paper-200 transition-colors hover:text-paper-50 sm:text-2xl">
-      {partner.name}
+/* Logo chip plus wordmark. No category label underneath. */
+function PartnerMark({ partner }: { partner: Partner }) {
+  const [logoFailed, setLogoFailed] = useState(false);
+  const showLogo = Boolean(partner.domain) && !logoFailed;
+
+  const inner = (
+    <span className="flex items-center gap-3">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-[10px] bg-paper-50">
+        {showLogo ? (
+          <img
+            src={`https://www.google.com/s2/favicons?domain=${partner.domain}&sz=128`}
+            alt=""
+            width={28}
+            height={28}
+            loading="lazy"
+            className="h-7 w-7 object-contain"
+            onLoad={(e) => {
+              // The service answers with a small generic globe for domains it
+              // cannot resolve. Treat anything tiny as a miss.
+              if (e.currentTarget.naturalWidth < 32) setLogoFailed(true);
+            }}
+            onError={() => setLogoFailed(true)}
+          />
+        ) : (
+          <span className="font-display text-lg text-ink-950">{partner.name.charAt(0)}</span>
+        )}
+      </span>
+      <span className="font-display text-base leading-tight text-paper-200 transition-colors group-hover:text-paper-50 sm:text-lg">
+        {partner.name}
+      </span>
     </span>
   );
 
-  if (!partner.href) return mark;
+  if (!partner.href) return <span className="group">{inner}</span>;
 
   return (
-    <a href={partner.href} target="_blank" rel="noreferrer noopener">
-      {mark}
+    <a href={partner.href} target="_blank" rel="noreferrer noopener" className="group">
+      {inner}
     </a>
   );
 }

@@ -39,12 +39,16 @@ const services = [
 
 const faqs = [
   {
-    q: "Who is this for?",
-    a: "Early-stage founders who are about to raise or about to apply somewhere, and want the story and the process to be right before they do.",
+    q: "Who gets in?",
+    a: "Early-stage founders we think are genuinely worth backing. We keep the room small, so we turn down far more companies than we take.",
   },
   {
     q: "What happens after I submit?",
-    a: "We read every submission. If it looks like a fit we set up a short interview, and the strongest companies get referred to funds we work with.",
+    a: "We read every submission. If it looks like a fit we set up an interview, and the strongest companies get introduced to our partner funds.",
+  },
+  {
+    q: "Why keep it small?",
+    a: "An introduction only carries weight if the people making it are known for being selective. A crowded room would cost our members the thing they came for.",
   },
   {
     q: "Do I need to be raising right now?",
@@ -55,8 +59,8 @@ const faqs = [
     a: "Operators and advisors who have raised rounds and built companies. You work with the ones whose experience matches what you are trying to do.",
   },
   {
-    q: "Does submitting guarantee a referral?",
-    a: "No. Referrals only mean anything if they are selective, so we make them when we genuinely believe in the company. If it is not a fit we say so.",
+    q: "Does applying guarantee an introduction?",
+    a: "No. We make introductions when we genuinely believe in the company, and say so plainly when we do not. That is what keeps them worth something.",
   },
 ];
 
@@ -90,13 +94,13 @@ function Hero() {
             <Reveal delay={0.06}>
               {/* Scale tuned so the headline holds 2 lines at desktop in this column. */}
               <h1 className="text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
-                Straight answers on building and raising
+                A small room of founders worth backing
               </h1>
             </Reveal>
             <Reveal delay={0.12}>
               <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-paper-400">
-                We sharpen your story, get you through accelerator doors, and refer the strongest
-                companies to the funds we work with.
+                Membership is by application. We sharpen your story, open accelerator doors, and
+                introduce the strongest companies to our partner funds.
               </p>
             </Reveal>
             <Reveal delay={0.18}>
@@ -122,7 +126,9 @@ function Hero() {
               alt="A founder presenting to investors across a table"
               width={1200}
               height={900}
-              fetchPriority="high"
+              // React 18 does not know the camelCase prop and warns; the lowercase
+              // attribute is passed straight through to the DOM.
+              {...{ fetchpriority: "high" }}
               className="aspect-[4/3] w-full rounded-[var(--radius-card)] object-cover"
             />
           </Reveal>
@@ -145,7 +151,7 @@ function Services() {
     <Section id="advisory">
       <Container>
         <Reveal>
-          <Eyebrow>What we do</Eyebrow>
+          <Eyebrow>What members get</Eyebrow>
           <h2 className="mt-4 max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
             Three things that decide whether the round happens
           </h2>
@@ -221,6 +227,13 @@ function TheBench() {
           <h2 className="max-w-[24ch] text-3xl leading-[1.1] md:text-5xl">
             A small bench, chosen for the raise you are actually running
           </h2>
+          <Link
+            to="/mentors"
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-accent-400 transition-colors hover:text-accent-500"
+          >
+            Meet the mentors
+            <ArrowRightIcon size={16} weight="bold" />
+          </Link>
         </Reveal>
 
         <dl className="mt-14 grid gap-10 border-t border-paper-200/10 pt-10 md:grid-cols-3 md:gap-8">
@@ -245,11 +258,11 @@ function HowItWorks() {
     },
     {
       title: "Interview",
-      body: "If it looks like a fit we set up a conversation and work through the story with you.",
+      body: "If it looks like a fit we sit down with you properly. Most conversations end here, and we tell you why.",
     },
     {
-      title: "Get referred",
-      body: "The strongest companies are introduced to the funds and programmes we work with.",
+      title: "Get introduced",
+      body: "Members we back are put in front of our partner funds and the programmes we work with.",
     },
   ];
 
@@ -361,6 +374,9 @@ function SiteFooter() {
             <a href="#advisory" className="hover:text-paper-50">
               What we do
             </a>
+            <Link to="/mentors" className="hover:text-paper-50">
+              Mentors
+            </Link>
             <a href="#fund" className="hover:text-paper-50">
               Fund
             </a>
