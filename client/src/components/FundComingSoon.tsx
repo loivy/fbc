@@ -15,11 +15,11 @@ export function FundComingSoon() {
   const detail = [
     {
       lead: "Fund",
-      body: "Direct investment into companies coming out of the community.",
+      body: "Direct investment into companies coming out of the network.",
     },
     {
       lead: "Accelerator",
-      body: "A structured programme on top of the advisory hours founders already book.",
+      body: "A structured programme for founders already building inside the network.",
     },
   ];
 
@@ -48,8 +48,8 @@ export function FundComingSoon() {
 
               <Reveal delay={0.14}>
                 <p className="mt-5 max-w-[52ch] leading-relaxed text-paper-400">
-                  We are building the next step for founders already working with our mentors:
-                  capital and a programme, run by the same bench.
+                  Capital and a programme run by the same people already in the network, for the
+                  founders building inside it.
                 </p>
               </Reveal>
 

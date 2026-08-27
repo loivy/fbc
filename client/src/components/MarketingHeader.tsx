@@ -1,19 +1,26 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { ListIcon, XIcon } from "@phosphor-icons/react";
 import { ButtonLink, Container, cn } from "./ui";
 
-// Kept short so the row stays on one line at lg. Anchors are prefixed with "/"
-// so they resolve from any page, not just the landing page.
+/*
+  Nav order mirrors the company hierarchy: the founder network first, capital and
+  advisory downstream of it. Advisory is deliberately not the first item.
+  Four items keeps the row on one line at lg.
+*/
 const navLinks = [
-  { label: "What we do", href: "/#advisory" },
-  { label: "Mentors", href: "/mentors" },
-  { label: "Network", href: "/#partners" },
-  { label: "Fund", href: "/#fund" },
+  { label: "Founders", to: "/founders" },
+  { label: "Investors", to: "/investors" },
+  { label: "Advisory", to: "/advisory" },
+  { label: "About", to: "/about" },
 ];
 
 export function MarketingHeader() {
   const [open, setOpen] = useState(false);
+  const { pathname } = useLocation();
+
+  // A route change with the mobile panel still open leaves it covering the new page.
+  useEffect(() => setOpen(false), [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-paper-200/10 bg-ink-950/85 backdrop-blur-md">
@@ -26,13 +33,17 @@ export function MarketingHeader() {
 
           <nav className="hidden items-center gap-7 md:flex">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm text-paper-400 transition-colors hover:text-paper-50"
+              <Link
+                key={link.to}
+                to={link.to}
+                aria-current={pathname === link.to ? "page" : undefined}
+                className={cn(
+                  "text-sm transition-colors hover:text-paper-50",
+                  pathname === link.to ? "text-paper-50" : "text-paper-400",
+                )}
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -43,7 +54,7 @@ export function MarketingHeader() {
             >
               Log in
             </Link>
-            <ButtonLink to="/apply">Submit your company</ButtonLink>
+            <ButtonLink to="/apply">Join FBC</ButtonLink>
           </div>
 
           <button
@@ -51,7 +62,8 @@ export function MarketingHeader() {
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             onClick={() => setOpen((prev) => !prev)}
-            className="md:hidden"
+            /* -mr-2.5 keeps the icon optically aligned while the tap area stays 44px. */
+            className="-mr-2.5 flex h-11 w-11 items-center justify-center md:hidden"
           >
             {open ? <XIcon size={22} weight="bold" /> : <ListIcon size={22} weight="bold" />}
           </button>
@@ -62,20 +74,15 @@ export function MarketingHeader() {
         <Container>
           <div className="flex flex-col gap-1 py-4">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="py-2 text-sm text-paper-400"
-              >
+              <Link key={link.to} to={link.to} className="py-2 text-sm text-paper-400">
                 {link.label}
-              </a>
+              </Link>
             ))}
             <Link to="/login" className="py-2 text-sm text-paper-400">
               Log in
             </Link>
             <ButtonLink to="/apply" className="mt-2 w-full">
-              Submit your company
+              Join FBC
             </ButtonLink>
           </div>
         </Container>

@@ -1,5 +1,5 @@
 import { ArrowRightIcon } from "@phosphor-icons/react";
-import { MarketingHeader } from "../components/MarketingHeader";
+import { MarketingLayout } from "../components/MarketingLayout";
 import { Reveal } from "../components/Reveal";
 import { ButtonLink, Container, Eyebrow, Section } from "../components/ui";
 
@@ -55,10 +55,11 @@ const selection = [
 
 export function MentorsPage() {
   return (
-    <div className="min-h-[100dvh] bg-ink-950">
-      <MarketingHeader />
-      <main>
-        <Section>
+    <MarketingLayout
+      title="FBC | The Bench"
+      description="Operators and investors who have run the process themselves, kept deliberately few."
+    >
+      <Section>
           <Container>
             <div className="max-w-3xl">
               <Reveal>
@@ -142,8 +143,7 @@ export function MentorsPage() {
             </Reveal>
           </Container>
         </Section>
-      </main>
-    </div>
+    </MarketingLayout>
   );
 }
 

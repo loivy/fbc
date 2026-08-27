@@ -49,12 +49,12 @@ export function SignupPage() {
       aside={
         <div className="max-w-md">
           <p className="font-display text-2xl leading-snug font-medium text-paper-50">
-            Mentor hours, weekly investor matches, and the events in between.
+            A curated network for ambitious founders and builders.
           </p>
           <ul className="mt-8 flex flex-col gap-3 text-sm text-paper-200/70">
-            <li>Book mentors by expertise, not by queue</li>
-            <li>Five matched investors a week on any paid plan</li>
-            <li>Start free and pay per session</li>
+            <li>The right people, not more of them</li>
+            <li>Opportunities relevant to what you are building now</li>
+            <li>Capital and support when the moment calls for it</li>
           </ul>
         </div>
       }

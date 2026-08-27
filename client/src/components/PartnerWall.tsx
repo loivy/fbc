@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Reveal } from "./Reveal";
-import { Container, Eyebrow, Section } from "./ui";
+import { Container } from "./ui";
 
 export interface Partner {
   name: string;
@@ -46,25 +46,28 @@ export const partners: Partner[] = [
   { name: "Tech-do VC" },
 ];
 
+/**
+ * Restrained credibility strip. No headline of its own: it sits directly under
+ * the hero to answer "are these people relevant to me" without competing with
+ * the positioning above it.
+ *
+ * The label states the relationship precisely. It does not claim these
+ * organisations endorse, sponsor, or invest in FBC.
+ */
 export function PartnerWall({ items = partners }: { items?: Partner[] }) {
   if (items.length === 0) return null;
 
   return (
-    <Section id="partners" className="border-y border-paper-200/10 bg-ink-900">
+    <section id="partners" className="border-y border-paper-200/10 bg-ink-900 py-14">
       <Container>
         <Reveal>
-          <Eyebrow>Network</Eyebrow>
-          {/* States the relationships as they are. No claim about what any
-              individual application will lead to. */}
-          <h2 className="mt-4 max-w-[22ch] text-3xl leading-[1.1] md:text-5xl">Who we work with</h2>
-          <p className="mt-5 max-w-[54ch] leading-relaxed text-paper-400">
-            Funds and programmes we partner and collaborate with, and the accelerators our members
-            are part of.
+          <p className="font-mono text-[11px] tracking-[0.18em] text-paper-500 uppercase">
+            Funds and programmes we partner and collaborate with
           </p>
         </Reveal>
 
-        <Reveal delay={0.08}>
-          <ul className="mt-12 grid grid-cols-2 gap-x-6 gap-y-8 border-t border-paper-200/10 pt-10 sm:grid-cols-3 lg:grid-cols-4">
+        <Reveal delay={0.06}>
+          <ul className="mt-8 grid grid-cols-2 gap-x-6 gap-y-7 sm:grid-cols-3 lg:grid-cols-5">
             {items.map((partner) => (
               <li key={partner.name}>
                 <PartnerMark partner={partner} />
@@ -73,7 +76,7 @@ export function PartnerWall({ items = partners }: { items?: Partner[] }) {
           </ul>
         </Reveal>
       </Container>
-    </Section>
+    </section>
   );
 }
 

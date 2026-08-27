@@ -5,6 +5,10 @@ import { ProtectedRoute } from "./ProtectedRoute";
 import { LandingPage } from "./pages/LandingPage";
 import { ApplyPage } from "./pages/ApplyPage";
 import { MentorsPage } from "./pages/MentorsPage";
+import { FoundersPage } from "./pages/FoundersPage";
+import { InvestorsPage } from "./pages/InvestorsPage";
+import { AdvisoryPage } from "./pages/AdvisoryPage";
+import { AboutPage } from "./pages/AboutPage";
 import { SignupPage } from "./pages/SignupPage";
 import { LoginPage } from "./pages/LoginPage";
 import { DashboardPage } from "./pages/DashboardPage";
@@ -54,6 +58,10 @@ export function App() {
         <Route path="/" element={<LandingRoute />} />
         {/* Public: applicants do not have accounts, and it needs no Firebase. */}
         <Route path="/apply" element={<ApplyPage />} />
+        <Route path="/founders" element={<FoundersPage />} />
+        <Route path="/investors" element={<InvestorsPage />} />
+        <Route path="/advisory" element={<AdvisoryPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/mentors" element={<MentorsPage />} />
         <Route
           path="/signup"

@@ -2,7 +2,7 @@ import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRightIcon, CheckCircleIcon } from "@phosphor-icons/react";
 import { api, type ApplicationInput, type CompanyStage } from "../lib/api";
-import { MarketingHeader } from "../components/MarketingHeader";
+import { MarketingLayout } from "../components/MarketingLayout";
 import { Button, Container, Field, Section, inputClass } from "../components/ui";
 
 const stages: Array<{ value: CompanyStage; label: string }> = [
@@ -54,19 +54,20 @@ export function ApplyPage() {
   }
 
   return (
-    <div className="min-h-[100dvh] bg-ink-950">
-      <MarketingHeader />
-      <main>
-        <Section>
+    <MarketingLayout
+      title="FBC | Join the Founder Network"
+      description="Tell us what you are building. Membership in the FBC founder network is by application."
+    >
+      <Section>
           <Container>
             {submitted ? <Submitted /> : null}
 
             <div className={submitted ? "hidden" : undefined}>
               <div className="max-w-2xl">
-                <h1 className="text-4xl leading-[1.08] md:text-5xl">Submit your company</h1>
+                <h1 className="text-4xl leading-[1.08] md:text-5xl">Join the Founder Network</h1>
                 <p className="mt-5 leading-relaxed text-paper-400">
-                  Tell us what you are building. We read every submission, interview the companies
-                  we think are ready, and refer the strongest to funds we work with.
+                  Tell us what you are building, exploring, raising, or looking for. We read every
+                  application and reply either way.
                 </p>
               </div>
 
@@ -249,9 +250,8 @@ export function ApplyPage() {
               </form>
             </div>
           </Container>
-        </Section>
-      </main>
-    </div>
+      </Section>
+    </MarketingLayout>
   );
 }
 
