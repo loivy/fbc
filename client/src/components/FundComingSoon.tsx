@@ -42,7 +42,7 @@ export function FundComingSoon() {
 
               <Reveal delay={0.08}>
                 <h2 className="mt-5 max-w-[18ch] text-3xl leading-[1.1] md:text-4xl">
-                  Our fund and accelerator are on the way
+                  A fund and an accelerator
                 </h2>
               </Reveal>
 

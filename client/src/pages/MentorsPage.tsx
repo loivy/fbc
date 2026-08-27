@@ -62,11 +62,11 @@ export function MentorsPage() {
           <Container>
             <div className="max-w-3xl">
               <Reveal>
-                <Eyebrow>The bench</Eyebrow>
+                <Eyebrow>Mentors</Eyebrow>
               </Reveal>
               <Reveal delay={0.06}>
                 <h1 className="mt-5 text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
-                  The people you will actually be sitting with
+                  The bench
                 </h1>
               </Reveal>
               <Reveal delay={0.12}>
@@ -126,11 +126,11 @@ export function MentorsPage() {
             <Reveal>
               <div className="rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 px-7 py-14 text-center sm:px-14">
                 <h2 className="mx-auto max-w-[22ch] text-3xl leading-[1.1] md:text-4xl">
-                  Membership is by application
+                  By application
                 </h2>
                 <p className="mx-auto mt-5 max-w-[50ch] leading-relaxed text-paper-400">
-                  Tell us what you are building. If it is a fit, we will put you in front of the
-                  right people on the bench.
+                  Tell us what you are building. If it is a fit, these are the people you will be
+                  working with.
                 </p>
                 <div className="mt-9 flex justify-center">
                   <ButtonLink to="/apply" size="lg">

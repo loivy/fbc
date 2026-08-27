@@ -33,7 +33,7 @@ const services = [
   },
   {
     title: "Raise from investors",
-    body: "Target list, warm paths in, and the referral itself when your company is ready for the funds we work with.",
+    body: "Building the target list, working out the order to approach them in, and knowing how the partner meeting actually runs.",
   },
 ];
 
@@ -44,7 +44,7 @@ const faqs = [
   },
   {
     q: "What happens after I submit?",
-    a: "We read every submission. If it looks like a fit we set up an interview, and the strongest companies get introduced to our partner funds.",
+    a: "We read every submission. If it looks like a fit we set up an interview, and from there you start working with the bench.",
   },
   {
     q: "Why keep it small?",
@@ -94,13 +94,13 @@ function Hero() {
             <Reveal delay={0.06}>
               {/* Scale tuned so the headline holds 2 lines at desktop in this column. */}
               <h1 className="text-4xl leading-[1.06] md:text-5xl lg:text-[54px]">
-                A small room of founders worth backing
+                For founders worth backing
               </h1>
             </Reveal>
             <Reveal delay={0.12}>
               <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-paper-400">
-                Membership is by application. We sharpen your story, open accelerator doors, and
-                introduce the strongest companies to our partner funds.
+                A selective community, by application. We work with founders on the story, the
+                accelerator applications, and the raise.
               </p>
             </Reveal>
             <Reveal delay={0.18}>
@@ -153,7 +153,7 @@ function Services() {
         <Reveal>
           <Eyebrow>What members get</Eyebrow>
           <h2 className="mt-4 max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
-            Three things that decide whether the round happens
+            What we work on
           </h2>
         </Reveal>
 
@@ -225,7 +225,7 @@ function TheBench() {
       <Container>
         <Reveal>
           <h2 className="max-w-[24ch] text-3xl leading-[1.1] md:text-5xl">
-            A small bench, chosen for the raise you are actually running
+            A deliberately small bench
           </h2>
           <Link
             to="/mentors"
@@ -261,8 +261,8 @@ function HowItWorks() {
       body: "If it looks like a fit we sit down with you properly. Most conversations end here, and we tell you why.",
     },
     {
-      title: "Get introduced",
-      body: "Members we back are put in front of our partner funds and the programmes we work with.",
+      title: "Join the room",
+      body: "If it is a fit, you join and start working with the bench on whatever comes next.",
     },
   ];
 
@@ -340,7 +340,7 @@ function FinalCta() {
         <Reveal>
           <div className="rounded-[var(--radius-card)] border border-paper-200/10 bg-ink-900 px-7 py-16 text-center sm:px-14">
             <h2 className="mx-auto max-w-[20ch] text-3xl leading-[1.1] md:text-5xl">
-              Tell us what you are building
+              Apply to join
             </h2>
             <p className="mx-auto mt-5 max-w-[48ch] leading-relaxed text-paper-400">
               Send the company, your profile, and your deck. We read every submission and reply
