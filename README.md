@@ -2,6 +2,30 @@
 
 The goal is to create a platform for startup founders to get advise about business development and fund raising.
 
+## Positioning
+
+FBC is a **curated network for exceptional founders**, connecting the right people, capital, and
+opportunities at the moments that matter.
+
+The public site follows this hierarchy, and changes to it should preserve the order:
+
+1. **The founder network** - the core asset
+2. **Connections, opportunities, intelligence** - what the network produces
+3. **Capital and accelerator access** - downstream of the network
+4. **Advisory** - a premium layer on top, not the identity of the company
+
+Advisory and fundraising are deliberately *not* the dominant homepage narrative, and pricing is not
+shown publicly. Public pages: `/` `/founders` `/investors` `/advisory` `/about` `/mentors` `/apply`.
+
+What we help founders with:
+- Storytelling: sharpening the narrative and the deck
+- Accelerator applications
+- Raising from investors, including referrals to funds we partner with
+
+Companies apply publicly at `/apply` (company, founder profile, deck). Submissions land in the
+Firestore `applications` collection for review, interview, and referral. Pricing and plan tiers
+are intentionally not shown on the public site.
+
 Main functionalities:
 - Founder advisory: Book time to talk to mentors (fees apply per hour)
 - Connect founders and investors: There's a matching process. On a weekly basis founders get matched to 5 investors.
