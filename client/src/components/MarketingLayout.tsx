@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { MarketingHeader } from "./MarketingHeader";
 import { Container } from "./ui";
@@ -35,8 +35,10 @@ export function MarketingLayout({
     }
   }, [title, description]);
 
-  // Route changes keep the previous scroll offset otherwise.
-  useEffect(() => window.scrollTo({ top: 0 }), [pathname]);
+  // useLayoutEffect, not useEffect: this must land before Reveal's children
+  // run their whileInView check, or that check sees the old scroll offset and
+  // above-the-fold content can mount permanently hidden until a hard refresh.
+  useLayoutEffect(() => window.scrollTo({ top: 0 }), [pathname]);
 
   return (
     <div className="min-h-[100dvh] bg-ink-950">

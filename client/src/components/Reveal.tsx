@@ -1,31 +1,22 @@
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
 
 /**
- * Scroll-entry reveal. Motion here is doing one job: sequencing content so the
- * eye lands on a section's headline before its supporting detail. Collapses to
- * static under prefers-reduced-motion.
+ * Used to wrap content that previously had a scroll-entry fade-in via
+ * Framer Motion. That library's motion.div crashed React's commit phase
+ * when unmounted mid-animation while navigating away from a page (e.g.
+ * landing -> /apply), which happens on every route change since Reveal
+ * wraps nearly all page content. Rendering children directly removes the
+ * animation but also the crash; delay/className are kept so call sites
+ * don't need to change.
  */
 export function Reveal({
   children,
-  delay = 0,
+  delay: _delay = 0,
   className,
 }: {
   children: ReactNode;
   delay?: number;
   className?: string;
 }) {
-  const reduce = useReducedMotion();
-
-  return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 18 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.55, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
-      {children}
-    </motion.div>
-  );
+  return <div className={className}>{children}</div>;
 }
