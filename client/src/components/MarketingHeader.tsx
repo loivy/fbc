@@ -20,14 +20,16 @@ export function MarketingHeader() {
   const { pathname } = useLocation();
 
   // A route change with the mobile panel still open leaves it covering the new page.
-  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   return (
     <header className="sticky top-0 z-40 border-b border-paper-200/10 bg-ink-950/85 backdrop-blur-md">
       {/* Height stays under the 80px cap: h-16 desktop. */}
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
-          <Link to="/" className="font-display text-xl tracking-tight text-paper-50">
+          <Link reloadDocument to="/" className="font-display text-xl tracking-tight text-paper-50">
             FBC
           </Link>
 
@@ -36,6 +38,7 @@ export function MarketingHeader() {
               <Link
                 key={link.to}
                 to={link.to}
+                reloadDocument
                 aria-current={pathname === link.to ? "page" : undefined}
                 className={cn(
                   "text-sm transition-colors hover:text-paper-50",
@@ -50,6 +53,7 @@ export function MarketingHeader() {
           <div className="hidden items-center gap-2 md:flex">
             <Link
               to="/login"
+              reloadDocument
               className="px-3 text-sm text-paper-400 transition-colors hover:text-paper-50"
             >
               Log in
@@ -74,11 +78,16 @@ export function MarketingHeader() {
         <Container>
           <div className="flex flex-col gap-1 py-4">
             {navLinks.map((link) => (
-              <Link key={link.to} to={link.to} className="py-2 text-sm text-paper-400">
+              <Link
+                key={link.to}
+                to={link.to}
+                reloadDocument
+                className="py-2 text-sm text-paper-400"
+              >
                 {link.label}
               </Link>
             ))}
-            <Link to="/login" className="py-2 text-sm text-paper-400">
+            <Link reloadDocument to="/login" className="py-2 text-sm text-paper-400">
               Log in
             </Link>
             <ButtonLink to="/apply" className="mt-2 w-full">

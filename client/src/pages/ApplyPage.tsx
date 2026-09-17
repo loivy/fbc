@@ -266,6 +266,7 @@ function Submitted() {
       </p>
       <Link
         to="/"
+        reloadDocument
         className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent-400 hover:text-accent-500"
       >
         Back to the homepage

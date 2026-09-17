@@ -100,6 +100,7 @@ export function AdvisoryPage() {
               </p>
               <Link
                 to="/mentors"
+                reloadDocument
                 className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-accent-400 transition-colors hover:text-accent-500"
               >
                 Meet the bench
