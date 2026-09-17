@@ -60,12 +60,17 @@ foreach ($item in (Get-ChildItem -Path $DistDir -Recurse -File)) {
 }
 
 # 2. Create version.
-# The SPA rewrite must be declared here — firebase.json is only read by the CLI,
-# so deploying via the REST API without this makes every deep link 404.
+# The SPA rewrite and custom headers must be declared here — firebase.json is
+# only read by the CLI. Without the headers block, HTML gets Hosting's default
+# caching and can keep pointing browsers at an obsolete JavaScript bundle.
 Write-Output "=== Creating version ==="
 $versionConfig = @{
   config = @{
     rewrites = @(@{ glob = "**"; path = "/index.html" })
+    headers  = @(
+      @{ glob = "**"; headers = @{ "Cache-Control" = "no-cache" } }
+      @{ glob = "/assets/**"; headers = @{ "Cache-Control" = "public, max-age=31536000, immutable" } }
+    )
   }
 } | ConvertTo-Json -Depth 6
 $version = Invoke-RestMethod -Method Post -Uri "https://firebasehosting.googleapis.com/v1beta1/sites/$SiteId/versions" -Headers $HdrJson -Body $versionConfig
