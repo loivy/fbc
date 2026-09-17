@@ -83,7 +83,7 @@ export function ButtonLink({
   className,
 }: ButtonStyleProps & { to: string; children: ReactNode }) {
   return (
-    <Link to={to} className={buttonClass({ variant, size, className })}>
+    <Link reloadDocument to={to} className={buttonClass({ variant, size, className })}>
       {children}
     </Link>
   );

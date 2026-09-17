@@ -145,6 +145,7 @@ function Hero() {
                 </ButtonLink>
                 <Link
                   to="/founders"
+                  reloadDocument
                   className="inline-flex items-center justify-center rounded-full border border-paper-200/25 px-6 py-3 text-base font-medium text-paper-50 transition-colors hover:border-paper-200/55"
                 >
                   Explore the Network

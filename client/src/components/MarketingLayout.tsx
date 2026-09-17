@@ -38,7 +38,9 @@ export function MarketingLayout({
   // useLayoutEffect, not useEffect: this must land before Reveal's children
   // run their whileInView check, or that check sees the old scroll offset and
   // above-the-fold content can mount permanently hidden until a hard refresh.
-  useLayoutEffect(() => window.scrollTo({ top: 0 }), [pathname]);
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [pathname]);
 
   return (
     <div className="min-h-[100dvh] bg-ink-950">
@@ -63,7 +65,12 @@ function SiteFooter() {
           {/* py-1.5 keeps these above a comfortable tap height on mobile. */}
           <nav className="-my-1.5 flex flex-wrap gap-x-6 text-sm text-paper-400">
             {footerLinks.map((link) => (
-              <Link key={link.to} to={link.to} className="py-1.5 hover:text-paper-50">
+              <Link
+                key={link.to}
+                to={link.to}
+                reloadDocument
+                className="py-1.5 hover:text-paper-50"
+              >
                 {link.label}
               </Link>
             ))}
